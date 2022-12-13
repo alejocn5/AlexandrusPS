@@ -48,7 +48,7 @@ Although AlexandrusPS was devised to run without any previous installation given
 For each specie to analyze it is necessary to generate two fasta files, one with the amino acid sequences and the other with correspondent cds sequences (the same amino acid sequences but in DNA). It means: 1) Both files should have the same number of sequences and 2) each amino acid sequence should have their pair represented in the cds fasta file with the same header. For example: if you want to analyze 6 different species, you should have 12 fasta file (6 .cds.fasta and 6 .pep.fasta), follow a similar structure as the example data set in the ./Example folder, see Figure [TPS_72]
 
 #### Step 2
-Enter to the main folder of AlexandrusPS (cd ./AlexandrusPS) [TPS_71] and in the folder ./Fasta paste the cds and amino acid sequences.
+Enter to the main folder of AlexandrusPS (cd ./AlexandrusPS_Positive_selection_pipeline) [TPS_71] and in the folder ./Fasta paste the cds and amino acid sequences.
 
 #### Step 3
 Follow Binomial nomenclature for naming the fasta files, this formatting ensures the correct work of the pipeline, for this, we will go step by step taking as an example Human
