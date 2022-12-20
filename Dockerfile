@@ -62,4 +62,4 @@ COPY --from=build /venv ./venv
 COPY AlexandrusPS_Positive_selection_pipeline .
 
 SHELL ["/bin/bash", "-c"]
-
+RUN echo source /app/venv/bin/activate > ~/.bashrc
