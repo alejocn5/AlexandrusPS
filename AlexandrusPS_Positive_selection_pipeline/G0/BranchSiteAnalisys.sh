@@ -24,9 +24,9 @@ tar -xvf _$LI\_.tar.gz
 #STEP 19: Generate parameter files for Branch-Site models
     while read T
     do
-    perl    ../../Code/APS20_CreateCtl_ParameterDefParPG_BSM0.pl ../../Data/Parameter_codeml_M0BS.txt ../../Data/Deault_par.txt $T
-    perl    ../../Code/APS21_CreateCtl_ParameterDefParPG_BSM0H0.pl ../../Data/Parameter_codeml_M2BSH0.txt ../../Data/Deault_par.txt $T
-    perl    ../../Code/APS22_CreateCtl_ParameterDefParPG_BSM0H1.pl ../../Data/Parameter_codeml_M2BSH1.txt ../../Data/Deault_par.txt $T
+    perl    ../../Code/APS20_CreateCtl_ParameterDefParPG_BSM0.pl ../../Data/Parameter_codeml_M0BS.txt ../../Data/Default_par.txt $T
+    perl    ../../Code/APS21_CreateCtl_ParameterDefParPG_BSM0H0.pl ../../Data/Parameter_codeml_M2BSH0.txt ../../Data/Default_par.txt $T
+    perl    ../../Code/APS22_CreateCtl_ParameterDefParPG_BSM0H1.pl ../../Data/Parameter_codeml_M2BSH1.txt ../../Data/Default_par.txt $T
     done < ./TreeList.txt
     while read F
     do

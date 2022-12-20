@@ -29,4 +29,4 @@ my $S3_list_of_files_A1 = join(" ", @A1_orthologyFileList_S1);
 
 open my $OUT, "> ../Orthology_Prediction/ProteinOrthoTable_executable.sh";
 
-print $OUT "proteinortho5 -project=ProteinOrthoTable -cpus=$S2_numberOf_CPUS $S3_list_of_files_A1\n";
+print $OUT "proteinortho -project=ProteinOrthoTable -cpus=$S2_numberOf_CPUS $S3_list_of_files_A1\n";
