@@ -16,3 +16,4 @@ dependencies:
   - r-viridis
   - r-rstatix
   - proteinortho
+  - perl-app-cpanminus

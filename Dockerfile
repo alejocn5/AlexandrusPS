@@ -14,12 +14,12 @@ FROM base AS build
 RUN apt-get update \
     && apt-get install -yq \
         build-essential \
-        cpanminus \
+        # cpanminus \
 	wget && \
 	rm -rf /var/lib/apt/lists/*
 
 # Install cpan modules
-RUN cpanm Data::Dumper List::MoreUtils Array::Utils String::ShellQuote List::Util POSIX
+# RUN cpanm Data::Dumper List::MoreUtils Array::Utils String::ShellQuote List::Util POSIX
 
 # Install miniconda
 ENV PATH="/root/miniconda3/bin:${PATH}"
@@ -33,6 +33,9 @@ RUN wget \
 # install R, dependencies, and proteinortho
 COPY environment.yml .
 RUN conda env create -f environment.yml
+
+# Install cpan modules
+RUN conda run -n alexandrusps cpanm Data::Dumper List::MoreUtils Array::Utils String::ShellQuote List::Util POSIX
 
 # install conda-pack, create standalone env as venv
 RUN conda install -c conda-forge conda-pack && \
