@@ -43,8 +43,10 @@ RUN conda-pack -n alexandrusps -o /tmp/env.tar && \
 
 RUN /venv/bin/conda-unpack
 
-# get PRANK
-FROM ariloytynoja/prank:latest AS prank
+# install PRANK
+WORKDIR /programs
+RUN  wget http://wasabiapp.org/download/prank/prank.linux64.170427.tgz && \
+  tar zxf prank.linux64.170427.tgz
 
 # install PAML
 
@@ -53,13 +55,17 @@ FROM ariloytynoja/prank:latest AS prank
 FROM base AS runtime 
 
 WORKDIR /app
-
 # Copy build artifacts from build layer
 COPY --from=build /usr/local ./usr/local
 COPY --from=build /venv ./venv
-#COPY --from=prank /data ./data
+COPY --from=build /programs ./programs
 
+# add prank to commandline
+RUN cp -R ./programs/prank/bin/* ../bin/
+
+# copy AlexandrusPS
 COPY AlexandrusPS_Positive_selection_pipeline .
 
 SHELL ["/bin/bash", "-c"]
 RUN echo source /app/venv/bin/activate > ~/.bashrc
+
