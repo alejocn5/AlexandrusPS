@@ -49,7 +49,11 @@ RUN  wget http://wasabiapp.org/download/prank/prank.linux64.170427.tgz && \
   tar zxf prank.linux64.170427.tgz
 
 # install PAML
-
+RUN wget http://abacus.gene.ucl.ac.uk/software/paml4.9j.tgz && \
+  tar xzf paml4.9j.tgz && \
+  rm -rf paml4.9j.tgz && \
+  cd paml4.9j/src && \
+  make
 
 # run layer
 FROM base AS runtime 
@@ -62,6 +66,11 @@ COPY --from=build /programs ./programs
 
 # add prank to commandline
 RUN cp -R ./programs/prank/bin/* ../bin/
+
+# add paml to commandline
+RUN cp -R ./programs/paml4.9j/src/baseml ../bin/ &&\
+  cp -R ./programs/paml4.9j/src/codeml ../bin/ &&\
+  cp -R ./programs/paml4.9j/src/evolver ../bin/
 
 # copy AlexandrusPS
 COPY AlexandrusPS_Positive_selection_pipeline .
