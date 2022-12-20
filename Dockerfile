@@ -7,14 +7,16 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
+RUN apt-get update && \
+  apt-get install -yq screen
+
 # build layer
 FROM base AS build
 
 # Update system and install packages
-RUN apt-get update \
-    && apt-get install -yq \
-        build-essential \
-        # cpanminus \
+RUN apt-get update && \
+    apt-get install -yq \
+	build-essential \
 	wget && \
 	rm -rf /var/lib/apt/lists/*
 
