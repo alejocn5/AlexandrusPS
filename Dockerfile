@@ -73,7 +73,11 @@ RUN cp -R ./programs/paml4.9j/src/baseml ../bin/ &&\
   cp -R ./programs/paml4.9j/src/evolver ../bin/
 
 # copy AlexandrusPS
-COPY AlexandrusPS_Positive_selection_pipeline .
+COPY AlexandrusPS_Positive_selection_pipeline ./AlexandrusPS_Positive_selection_pipeline
+
+# mark shell scripts as executable
+WORKDIR /app/AlexandrusPS_Positive_selection_pipeline
+RUN chmod +x *.sh
 
 SHELL ["/bin/bash", "-c"]
 RUN echo source /app/venv/bin/activate > ~/.bashrc
