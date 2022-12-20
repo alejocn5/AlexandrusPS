@@ -1,0 +1,85 @@
+library(dplyr)
+library(ggplot2)
+library(caret)
+library(reshape2)
+library(ggpubr)
+library(RColorBrewer)
+library(stringr)
+library(viridis)
+library(ggpubr)
+library(rstatix)
+
+
+
+## incremental Positive selection ####
+#PositiveSelectionTable <- read.delim("../Final_table_positive_selection/PositiveSelectionTable_ALL.txt", header=FALSE, stringsAsFactors=FALSE)
+PositiveSelectionTable <- read.delim("../Final_table_positive_selection/PositiveSelectionTable_EU.txt", header=FALSE, stringsAsFactors=FALSE)
+colnames(PositiveSelectionTable) <- c("ID","Species","M0_lnL","M0_np", "M0_w","M1_lnL","M1_np", "M1_p0", "M1_p1", "M1_w0", "M1_w1", "M2_lnL","M2_np", "M3_lnL","M3_np","M7_lnL","M7_np", "M7_p","M7_q","M8_lnL","M8_np", "M8_p0", "M8_p","M8_q","M8_p1", "M8_w","M0_PSS","M1_PSS","M2_PSS","M3_PSS","M7_PSS","M8_PSS")
+
+caeno <- c("cbrenneri","cbriggsae","celegans","cinopinata","cjaponica","cremanei","DF5112")
+eurhabditis <- c("cbrenneri","cbriggsae","celegans","cinopinata","cjaponica","cremanei","DF5112","CEW1","DF5006") 
+#all <-              "DF5012","MT8872","ppacificus")
+PositiveSelectionTable <- PositiveSelectionTable %>% rowwise() %>% mutate(category1=case_when(
+  all(unlist(strsplit(Species,split=",")) %in% caeno) ~ "Caenorhabditis",
+  TRUE ~ "Mixed"
+)) %>% mutate(category2=case_when(
+  all(unlist(strsplit(Species,split=",")) %in% eurhabditis) ~ "Eurhabditis",
+  TRUE ~ "Mixed"
+)) %>% mutate(category3="ALL")
+
+median <- rbind(PositiveSelectionTable %>% 
+  group_by(category1) %>%  summarize(median1=median(M0_w)) %>% rename(category=category1) %>% rename(median=median1), 
+  PositiveSelectionTable %>% 
+    group_by(category2) %>%  summarize(median2=median(M0_w)) %>% rename(category=category2) %>% rename(median=median2), 
+  as_tibble(cbind("ALL",PositiveSelectionTable %>% pull(M0_w) %>% median())) %>% rename(category=V1) %>% rename(median=V2))
+
+
+PositiveSelectionTable %>% 
+  select(category1,M0_w) %>% 
+  filter(category1=="Caenorhabditis") %>%
+  ggplot(aes(x=M0_w,group=category1,fill=category1)) + 
+  #geom_histogram(aes(y=..density..), colour="black", fill="white",binwidth=0.005)+
+  geom_density(alpha=.2#, fill="#FF6666"
+  ) +
+  geom_density(data=PositiveSelectionTable %>% 
+                 select(category2,M0_w) %>% 
+                 filter(category2=="Eurhabditis"),aes(x=M0_w,group=category2,fill=category2),
+               alpha=.2#, fill="#FF6666"
+  ) +
+  geom_density(data=PositiveSelectionTable %>% 
+                 select(category3,M0_w)  
+                 ,aes(x=M0_w ,group=category3,fill=category3
+                      ),
+               alpha=.2#, fill="#FF6666"
+  ) +
+  theme_bw() +
+  theme(legend.position="bottom")+
+  labs(fill='Orthology subgroups') +
+  geom_vline(data = median %>% slice(c(1,3,5)), aes(xintercept = as.numeric(median),color = category), size=0.5,linetype="dashed", show.legend = F)
+
+###Positive Slection ####
+
+test <- PositiveSelectionTable %>% rowwise() %>%
+  mutate(M0_M3_DoF=(M3_np-M0_np)) %>%
+  mutate(M0_M3_LRT=2*(M3_lnL-M0_lnL)) %>%
+  mutate(M1_M2_DoF=(M2_np-M1_np)) %>%
+  mutate(M1_M2_LRT=2*(M2_lnL-M1_lnL)) %>%
+  mutate(M7_M8_DoF=(M8_np-M7_np)) %>%
+  mutate(M7_M8_LRT=2*(M8_lnL-M7_lnL)) %>%
+  
+  mutate(M0_M3_sig = pchisq(M0_M3_LRT, M0_M3_DoF, lower.tail=F)) %>%
+  mutate(M1_M2_sig = pchisq(M1_M2_LRT, M1_M2_DoF, lower.tail=F)) %>%
+  mutate(M7_M8_sig = pchisq(M7_M8_LRT, M7_M8_DoF, lower.tail=F)) #%>%
+#test <- adjust_pvalue(as.data.frame(test),p.col="M7_M8_sig",method="fdr")
+test <- adjust_pvalue(as.data.frame(test),p.col="M7_M8_sig",method="holm")
+
+test %>% filter(category1=="Caenorhabditis") %>% ggplot(aes(x=-log10(M7_M8_sig.adj))) + geom_density() +
+  geom_density(data=test %>% filter(category1!="Caenorhabditis"),aes(x=-log10(M7_M8_sig.adj)))  
+
+test %>% filter(category1=="Caenorhabditis") %>% mutate(stats=ifelse(M7_M8_sig.adj<0.05,"GUPS","noGUP")) %>% pull(stats) %>% table()
+test %>% filter(category2=="Eurhabditis") %>% mutate(stats=ifelse(M7_M8_sig.adj<0.05,"GUPS","noGUP")) %>% pull(stats) %>% table()
+#PosCaeno <- test %>% filter(M7_M8_sig < 0.05 & M8_w > 1)
+PosCaeno <- test %>% filter(M7_M8_sig.adj < 0.05 & M8_w > 1)
+PurCaeno <- test %>% filter(M1_M2_sig < 0.05 & M1_p0 > 0.9 & M1_w0 < 0.05)
+write.table(PosCaeno %>% pull(ID),file="../Final_table_positive_selection/GenesUnderPositiveSelectionALL.txt", quote = F,row.names = F,col.names = F)
+

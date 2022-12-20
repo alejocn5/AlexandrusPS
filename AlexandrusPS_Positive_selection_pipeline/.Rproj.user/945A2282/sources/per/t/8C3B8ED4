@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1638793744900.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3288582742",
+    "id" : "8C3B8ED4",
+    "lastKnownWriteTime" : 1638886742,
+    "last_content_update" : 1638886742055,
+    "path" : "~/PhD/Code/AC-B0000171_Positive_Selection_M0SM/AC-B0000171_Positive_Selection_M0SM.R",
+    "project_path" : "AC-B0000171_Positive_Selection_M0SM.R",
+    "properties" : {
+        "cursorPosition" : "75,0",
+        "scrollLine" : "57"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

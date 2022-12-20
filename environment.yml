@@ -1,0 +1,18 @@
+name: alexandrusps
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - r-base
+  - r-essentials
+  - r-dplyr
+  - r-ggplot2
+  - r-caret
+  - r-reshape2
+  - r-ggpubr
+  - r-rcolorbrewer
+  - r-stringr
+  - r-viridis
+  - r-rstatix
+  - proteinortho
