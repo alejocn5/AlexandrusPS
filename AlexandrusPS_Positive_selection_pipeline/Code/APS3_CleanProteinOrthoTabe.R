@@ -10,7 +10,11 @@ library(ggpubr)
 
 
 
+<<<<<<< HEAD
 POGF_all <- read.delim("./ProteinOrthoTable.proteinortho.tsv")
+=======
+POGF_all <- read.delim("./ProteinOrthoTable.proteinortho")
+>>>>>>> main
 POGF_all$ID<-c(seq(1, nrow(POGF_all)))
 colnames(POGF_all)[1] <- "A"
 colnames(POGF_all)[2] <- "B"
