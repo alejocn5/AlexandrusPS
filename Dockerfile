@@ -65,8 +65,8 @@ FROM base AS runtime
 
 WORKDIR /app
 # Copy build artifacts from build layer
-COPY --from=build /usr/local ./usr/local
-COPY --from=build /venv ./venv
+COPY --from=build /usr/local ../usr/local
+COPY --from=build /venv ../venv
 COPY --from=build /programs ./programs
 
 # add prank to commandline
@@ -85,5 +85,5 @@ WORKDIR /app/AlexandrusPS_Positive_selection_pipeline
 RUN chmod +x *.sh
 
 SHELL ["/bin/bash", "-c"]
-RUN echo source /app/venv/bin/activate > ~/.bashrc
+RUN echo source /venv/bin/activate > ~/.bashrc
 

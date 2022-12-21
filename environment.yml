@@ -2,7 +2,8 @@ name: alexandrusps
 channels:
   - conda-forge
   - bioconda
-  - nodefaults
+  - r
+  - defaults
 dependencies:
   - r-base
   - r-essentials
