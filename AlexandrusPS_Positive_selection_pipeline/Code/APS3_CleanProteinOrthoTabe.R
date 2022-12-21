@@ -8,9 +8,9 @@ library(stringr)
 library(viridis)
 library(ggpubr)
 
+print("hello")
 
-
-POGF_all <- read.delim("./ProteinOrthoTable.proteinortho.tsv")
+POGF_all <- read.delim("ProteinOrthoTable.proteinortho.tsv")
 
 POGF_all$ID<-c(seq(1, nrow(POGF_all)))
 colnames(POGF_all)[1] <- "A"
