@@ -1,14 +1,12 @@
 library(dplyr)
-library(ggplot2)
-library(caret)
-library(reshape2)
-library(ggpubr)
-library(RColorBrewer)
-library(stringr)
-library(viridis)
-library(ggpubr)
-
-print("hello")
+#library(ggplot2)
+#library(caret)
+#library(reshape2)
+#library(ggpubr)
+#library(RColorBrewer)
+#library(stringr)
+#library(viridis)
+#library(ggpubr)
 
 POGF_all <- read.delim("ProteinOrthoTable.proteinortho.tsv")
 
