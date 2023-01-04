@@ -1,10 +1,40 @@
 # AlexandrusPS [TPS_66] 
 
 
-This repository contains procedures and scripts  from AlexandrusPS:
+This repository contains procedures and scripts from AlexandrusPS:
 
+## Installation
+### Recommended - deploy with Docker
 
-### Requirements
+The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
+
+```
+docker pull vivienschoonenberg/alexandrusps:0.4
+```
+
+Available tags can be found [here](https://hub.docker.com/repository/docker/vivienschoonenberg/alexandrusps).
+
+#### How to Docker
+
+Start an interactive bash shell with the alexandrusps container:
+
+```
+docker run --rm -it vivienschoonenberg/alexandrusps:0.4
+```
+
+To quit the container, type 'exit'.
+
+To access local files (necessary), you can mount your home or a different folder in the container:
+
+```
+```
+
+To copy the results from the container to your local machine (to be able to access the results locally and later, after closing the container):
+
+```
+```
+
+### Manual installation and requirements
 Although AlexandrusPS was devised to run without any previous installation given the docker containers,  the user is given the choice to install independently all the programs and modules to run.
 
 -------------
@@ -43,7 +73,8 @@ Although AlexandrusPS was devised to run without any previous installation given
 + sudo apt install screen
 -------------
 
-### 5 simple steps to run AlexandrusPS
+
+## 5 simple steps to run AlexandrusPS
 #### Step 1 
 For each specie to analyze it is necessary to generate two fasta files, one with the amino acid sequences and the other with correspondent cds sequences (the same amino acid sequences but in DNA). It means: 1) Both files should have the same number of sequences and 2) each amino acid sequence should have their pair represented in the cds fasta file with the same header. For example: if you want to analyze 6 different species, you should have 12 fasta file (6 .cds.fasta and 6 .pep.fasta), follow a similar structure as the example data set in the ./Example folder, see Figure [TPS_72]
 
