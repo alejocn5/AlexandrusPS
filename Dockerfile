@@ -13,8 +13,6 @@ RUN apt-get update && \
   apt-get install -yq screen \
   proteinortho \
   cpanminus \
-  libcurl4-openssl-dev \ 
-  cmake \
   perl \
   r-base && \
   rm -rf /var/lib/apt/lists/*
@@ -26,6 +24,8 @@ FROM base AS build
 RUN apt-get update && \
     apt-get install -yq \
 	build-essential \
+  libcurl4-openssl-dev \ 
+  cmake \
 	wget && \
 	rm -rf /var/lib/apt/lists/*
 

@@ -9,7 +9,7 @@ This repository contains procedures and scripts from AlexandrusPS:
 The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
 
 ```
-docker pull vivienschoonenberg/alexandrusps:0.4
+docker pull vivienschoonenberg/alexandrusps:0.6
 ```
 
 Available tags can be found [here](https://hub.docker.com/repository/docker/vivienschoonenberg/alexandrusps).
@@ -19,19 +19,18 @@ Available tags can be found [here](https://hub.docker.com/repository/docker/vivi
 Start an interactive bash shell with the alexandrusps container:
 
 ```
-docker run --rm -it vivienschoonenberg/alexandrusps:0.4
+docker run --rm -it vivienschoonenberg/alexandrusps:0.6
 ```
-
-To quit the container, type 'exit'.
+You will be in proper location to run AlexandrusPS. To quit the container, type 'exit'.
 
 To access local files (necessary), you can mount your home or a different folder in the container:
 
 ```
-docker run --rm --mount "type=bind,src=/home/$(id -un),dst=/home/$(id -un)" -u $(id -u):$(id -g) -it vivienschoonenberg/alexandrusps:0.4
+docker run --rm --mount "type=bind,src=/Users/$(id -un),dst=/app/$(id -un)" -u $(id -u):$(id -g) -it vivienschoonenberg/alexandrusps:0.6 
 ```
+Here, src is the absolute path to the folder you would like to mount. Dst specifies the folder to be mounted in the "app" directory with your username/id. The app folder contains the AlexandrusPS pipeline as well, which is the folder you automatically enter when starting a container from the image (you can move up to the "app" folder using ``` cd .. ```).
 
-You can then also copy any result or output files to your local home.
-
+You can also use the mounted folder in the container to copy any result or output files to your own local system.
 
 ### Manual installation and requirements
 Although AlexandrusPS was devised to run without any previous installation given the docker containers,  the user is given the choice to install independently all the programs and modules to run.
