@@ -1,7 +1,0 @@
-name: alexandrusps
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - proteinortho

@@ -36,16 +36,16 @@ done
 Error=Error_missed_sequences.txt
 if [ ! -f $Error ]
 	then
-	echo "\n\n\nQUALITY CONTOL (1/2):ALL THE SEQUENCES ARE CANDIDATES FOR THE ANALYSIS!\n\n\n"
+	echo "\n\n\nQUALITY CONTROL (1/2):ALL THE SEQUENCES ARE CANDIDATES FOR THE ANALYSIS!\n\n\n"
 else
-	echo "\n\n\nQUALITY CONTOL (1/2):SOME OF THE HEADERS IN THE AMINO ACID FASTA FILE (CHECK FILE: Error_missed_sequences.txt) WHERE NOT FOUND THE DNA SEQUENCES\n\n\n"
+	echo "\n\n\nQUALITY CONTROL (1/2):SOME OF THE HEADERS IN THE AMINO ACID FASTA FILE (CHECK FILE: Error_missed_sequences.txt) WHERE NOT FOUND THE DNA SEQUENCES\n\n\n"
 	echo "\n\n\nthe analysis will continue with the sequences that passed the quality control\n\n\n"
 fi 	
 	
 Errorh=Error_with_Fasta_header.txt
 if [ ! -f $Error ]
 	then
-	echo "\n\n\nQUALITY CONTOL (2/2):NO EMPTY SEQUENCES OR FILES!\n\n\n"
+	echo "\n\n\nQUALITY CONTROL (2/2):NO EMPTY SEQUENCES OR FILES!\n\n\n"
 #STEP 2: Orthology prediction by ProteinOrtho
 	echo "============================================================================================================================"
 	echo "============================================================================================================================"

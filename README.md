@@ -27,12 +27,11 @@ To quit the container, type 'exit'.
 To access local files (necessary), you can mount your home or a different folder in the container:
 
 ```
+docker run --rm --mount "type=bind,src=/home/$(id -un),dst=/home/$(id -un)" -u $(id -u):$(id -g) -it vivienschoonenberg/alexandrusps:0.4
 ```
 
-To copy the results from the container to your local machine (to be able to access the results locally and later, after closing the container):
+You can then also copy any result or output files to your local home.
 
-```
-```
 
 ### Manual installation and requirements
 Although AlexandrusPS was devised to run without any previous installation given the docker containers,  the user is given the choice to install independently all the programs and modules to run.

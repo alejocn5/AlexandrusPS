@@ -13,6 +13,8 @@ RUN apt-get update && \
   apt-get install -yq screen \
   proteinortho \
   cpanminus \
+  libcurl4-openssl-dev \ 
+  cmake \
   perl \
   r-base && \
   rm -rf /var/lib/apt/lists/*
@@ -20,40 +22,15 @@ RUN apt-get update && \
 # build layer
 FROM base AS build
 
-# Update system and install packages
+# Update system and install packages, libcurl for rstatix
 RUN apt-get update && \
     apt-get install -yq \
 	build-essential \
 	wget && \
 	rm -rf /var/lib/apt/lists/*
 
-# Install cpan modules
-RUN cpanm Data::Dumper List::MoreUtils Array::Utils String::ShellQuote List::Util POSIX
-
-# # Install miniconda for proteinortho and perl modules
-# ENV PATH="/root/miniconda3/bin:${PATH}"
-# ARG PATH="/root/miniconda3/bin:${PATH}"
-# RUN wget \
-#    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-#    && mkdir /root/.conda \
-#    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-#    && rm -f Miniconda3-latest-Linux-x86_64.sh 
-
-# # install proteinortho
-# COPY environment.yml .
-# RUN conda env create -f environment.yml
-
-# # install conda-pack, create standalone env as venv
-# RUN conda install -c conda-forge conda-pack && \
-#   conda clean -afy
-# RUN conda-pack -n alexandrusps -o /tmp/env.tar && \
-#   mkdir /venv && cd /venv && tar xf /tmp/env.tar && \
-#   rm /tmp/env.tar
-
-# RUN /venv/bin/conda-unpack
-
 # install R packages
-RUN R -q -e 'install.packages(c("caret", "reshape2", "dplyr", "stringr", "rstatix"))' && \
+RUN R -q -e 'install.packages(c("caret", "rstatix", "reshape2", "dplyr", "stringr"))' && \
     rm -rf /tmp/downloaded_packages
 
 # install PRANK
@@ -74,11 +51,9 @@ FROM base AS runtime
 # Copy build artifacts from build layer
 COPY --from=build /usr/local /usr/local
 
-# Install cpan modules
+# Install cpan modules (somehow doesn't work in build layer)
 RUN cpanm Data::Dumper List::MoreUtils Array::Utils String::ShellQuote List::Util POSIX
 
-
-# COPY --from=build /venv ../venv
 COPY --from=build /programs /programs
 
 # add prank to commandline
@@ -98,4 +73,3 @@ WORKDIR /app/AlexandrusPS_Positive_selection_pipeline
 RUN chmod +x *.sh
 
 SHELL ["/bin/bash", "-c"]
-# RUN echo source /venv/bin/activate > ~/.bashrc
