@@ -5,7 +5,7 @@ This repository contains procedures and scripts from AlexandrusPS:
     + [Recommended - deploy with Docker](#recommended---deploy-with-docker)
       - [How to Docker](#how-to-docker)
     + [Manual installation and requirements](#manual-installation-and-requirements)
-  * [5 simple steps to run AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
+* [5 simple steps to run AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
     + [Example](#example)
 
 ## Installation
