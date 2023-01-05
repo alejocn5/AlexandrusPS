@@ -1,7 +1,23 @@
 # AlexandrusPS [TPS_66] 
 
-
 This repository contains procedures and scripts from AlexandrusPS:
+* [Installation](#installation)
+    + [Recommended - deploy with Docker](#recommended---deploy-with-docker)
+      - [How to Docker](#how-to-docker)
+    + [Manual installation and requirements](#manual-installation-and-requirements)
+      - [Perl](#perl)
+      - [R](#r)
+      - [Protein orthology search](#protein-orthology-search)
+      - [Aligners](#aligners)
+      - [PAML](#paml)
+      - [Linux Screen](#linux-screen)
+  * [5 simple steps to run AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
+      - [Step 1](#step-1)
+      - [Step 2](#step-2)
+      - [Step 3](#step-3)
+      - [Step 4](#step-4)
+      - [Step 5](#step-5)
+    + [Example](#example)
 
 ## Installation
 ### Recommended - deploy with Docker
