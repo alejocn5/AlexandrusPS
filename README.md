@@ -27,7 +27,7 @@ You can also use the mounted folder in the container to copy any result or outpu
 ### 5 simple steps to run AlexandrusPS
 
 #### Step 1 - Sequence name indexing and quality control 
-For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with correspondent CDS sequences (the same as the amino acid sequences but as CDS sequences). It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. For example: if you want to analyze 6 different species, you should provide 12 FASTA files (6 '.CDS.fasta' and 6 ‘.pep.fasta’ files), make sure to follow a similar structure as the example data set in the './Example’ (Fig. 2N) directory, see Figure 1.
+For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with correspondent CDS sequences (the same as the amino acid sequences but as CDS sequences). It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. For example: if you want to analyze 6 different species, you should provide 12 FASTA files (6 '.cds.fasta' and 6 ‘.pep.fasta’ files), make sure to follow a similar structure as the example data set in the './Example’ (Fig. 2N) directory, see Figure 1.
 
 
 ![Fig1](https://user-images.githubusercontent.com/44226409/216979380-f96a7ad9-c6e5-446c-b0d5-3f0fa836e743.jpg)
