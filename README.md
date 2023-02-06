@@ -29,6 +29,9 @@ You can also use the mounted folder in the container to copy any result or outpu
 #### Step 1 - Sequence name indexing and quality control 
 For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with correspondent CDS sequences (the same as the amino acid sequences but as CDS sequences). It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. For example: if you want to analyze 6 different species, you should provide 12 FASTA files (6 '.CDS.fasta' and 6 ‘.pep.fasta’ files), make sure to follow a similar structure as the example data set in the './Example’ (Fig. 2N) directory, see Figure 1.
 
+
+![Fig1](https://user-images.githubusercontent.com/44226409/216979380-f96a7ad9-c6e5-446c-b0d5-3f0fa836e743.jpg)
+
 Figure 1- Example sequence files with correct naming 
 
 #### Step 2 - Enter to the main directory of AlexandrusPS (cd ‘./AlexandrusPS’) and paste the sequence FASTA files into the directory ‘./Fasta’.
@@ -48,10 +51,18 @@ After you added your sequence FASTA files to the './Fasta’ directory (Fig. 2K)
 Note that this quality control is by default executed by the AlexandrusPS pipeline. The pipeline will continue the analysis with the sequences that pass the quality control even if there are some sequences in ‘Error_missed_sequences.txt’ by excluding these from the analysis. It will however interrupt the process if it finds the file ‘Error_with_Fasta_header.txt’.
 
 
+![Fig2](https://user-images.githubusercontent.com/44226409/216979602-a10177a7-9d26-4254-889d-bbe031bedeb1.jpg)
+
+
 Figure 2. Content of the main directory of AlexandrusPS before execution of AlexandrusPS.sh
+
+![Fig3](https://user-images.githubusercontent.com/44226409/216979702-7ec0fe17-46fb-4118-80c0-b14e871baa60.jpg)
 
 
 Figure 3. Error files A) Not all amino acids sequences in the ‘.pep.fasta’ file are represented in the '.cds.fasta' file,  B) The headers in the ‘.pep.fasta’ and '.cds.fasta' files are different. 
+
+
+![Fig4](https://user-images.githubusercontent.com/44226409/216979802-f08f75f7-7e2b-43a1-b26c-480fdaae7ef0.jpg)
 
 
 Fig. 4. Content of the main directory of AlexandrusPS after execution of AlexandrusPS.sh
