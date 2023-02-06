@@ -2,7 +2,7 @@
 This repository contains procedures and scripts  from AlexandrusPS:
 ### Introduction
 
-AlexandrusPS is a high-throughput user-friendly pipeline designed to simplify the genome-wide positive selection analysis by deploying well-established protocols of CodeML [PMID:17483113]. This can be especially advantageous for researchers with no evolutionary or bioinformatics experience.
+AlexandrusPS is a high-throughput user-friendly pipeline designed to simplify the genome-wide positive selection analysis by deploying well-established protocols of CodeML [[1]](#1). This can be especially advantageous for researchers with no evolutionary or bioinformatics experience.
 AlexandrusPS's main aim is to overcome the technical challenges of a genome-wide positive selection analysis such as i) the execution of an accurate orthology analysis as a precondition for positive selection analysis; ii) preparing and organizing configuration files for CodeML; iii)  doing a positive selection analysis on large sets of sequences and iv) generate an output that is easy to interpret including all relevant maximum likelihood (ML) and log ratio test (LRT) results.
 The only input data AlexandrusPS needs are the CDS and amino acid sequences of interest. AlexandrusPS provides a simplified output that comprises a table including all relevant results which can be easily extracted for assessment and publication. AlexandrusPS produces and provides all intermediate data such as the results of the ProteinOrtho orthology analysis and the multiple alignments. Default parameters of all steps can be adjusted. 
 ### Requirements
@@ -337,3 +337,8 @@ AlexandrusPS was devised to run without any previous installation given the dock
 The PAML software package includes CodeML (http://abacus.gene.ucl.ac.uk/software/paml.html) - v4.8a or v4.7
 
 
+## References
+<a id="1">[1]</a> 
+Yang, Z. (2007). 
+PAML 4: phylogenetic analysis by maximum likelihood. 
+Molecular biology and evolution, 24(8), 1586-1591.
