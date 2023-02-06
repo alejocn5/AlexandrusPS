@@ -37,9 +37,9 @@ Figure 1- Example sequence files with correct naming
 #### Step 2 - Enter to the main directory of AlexandrusPS (cd ‘./AlexandrusPS’) and paste the sequence FASTA files into the directory ‘./Fasta’.
 
 #### Step 3 - Follow binomial nomenclature rules for naming the FASTA files, this formating ensures the proper functioning of the pipeline. Here a step by step example for human:
-*1) Find the scientific name for human in binomial nomenclature ("two-term naming system") in which first term is genus or generic name => Homo and the second term is the specific name or specific epithet => sapiens
-*2) Join the two terms by underline (_) => Homo_sapiens
-*3) Add the termination character '.cds.fasta' for the CDS file and ‘.pep.fasta’ for the amino acid files = Homo_sapiens.cds.fasta (CDS FASTA file) and Homo_sapiens.pep.fasta (amino acid FASTA file).
+* 1) Find the scientific name for human in binomial nomenclature ("two-term naming system") in which first term is genus or generic name => Homo and the second term is the specific name or specific epithet => sapiens
+* 2) Join the two terms by underline (_) => Homo_sapiens
+* 3) Add the termination character '.cds.fasta' for the CDS file and ‘.pep.fasta’ for the amino acid files = Homo_sapiens.cds.fasta (CDS FASTA file) and Homo_sapiens.pep.fasta (amino acid FASTA file).
 
 Two important considerations are:
 i) Both FASTA files need to have the same name, the only difference should be the file extension ('.cds.fasta' and ‘.pep.fasta’).
