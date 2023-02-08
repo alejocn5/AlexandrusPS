@@ -1,5 +1,23 @@
 # AlexandrusPS: a user-friendly pipeline for genome-wide positive selection analysis 
-This repository contains procedures and scripts  from AlexandrusPS:
+
+This repository contains procedures and scripts from AlexandrusPS:
+* [Installation](#installation)
+    + [Recommended - deploy with Docker](#recommended---deploy-with-docker)
+      - [How to Docker](#how-to-docker)
+    + [Manual installation and requirements](#manual-installation-and-requirements)
+* [5 simple steps to run AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
+    + [Example](#example)
+
+## Installation
+### Recommended - deploy with Docker
+
+The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
+
+```
+docker pull vivienschoonenberg/alexandrusps:0.6
+```
+
+Available tags can be found [here](https://hub.docker.com/repository/docker/vivienschoonenberg/alexandrusps).
 ### Introduction
 
 AlexandrusPS is a high-throughput user-friendly pipeline designed to simplify the genome-wide positive selection analysis by deploying well-established protocols of CodeML [[1]](#1). This can be especially advantageous for researchers with no evolutionary or bioinformatics experience.
