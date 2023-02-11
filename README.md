@@ -1,7 +1,7 @@
 # AlexandrusPS: a user-friendly pipeline for genome-wide positive selection analysis 
 
-This repository contains procedures and scripts from AlexandrusPS:
-*[Introduction](#introduction)
+This repository contains procedures and scripts from AlexandrusPS:  
+* [Introduction](#introduction)
 * [Installation](#installation)
     + [Recommended - deploy with Docker](#recommended---deploy-with-docker)
       - [How to Docker](#how-to-docker)
