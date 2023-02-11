@@ -1,12 +1,12 @@
 library(dplyr)
-library(ggplot2)
+#library(ggplot2)
 library(caret)
 library(reshape2)
-library(ggpubr)
-library(RColorBrewer)
+#library(ggpubr)
+#library(RColorBrewer)
 library(stringr)
-library(viridis)
-library(ggpubr)
+#library(viridis)
+#library(ggpubr)
 library(rstatix)
 
 ####Branch####
@@ -23,7 +23,7 @@ BS_analysis <- Branch_models_Table %>% rowwise() %>%
 Branch_model <- adjust_pvalue(as.data.frame(BS_analysis),p.col="M0_bM0_sig",method="fdr")
 Branch_site <- adjust_pvalue(as.data.frame(BS_analysis),p.col="bsM0H1_bsM0H0_sig",method="fdr")
 
-Branch_model <-Branch_model %>% filter(M0_bM0_sig.adj < 0.05)
+Branch_model <- Branch_model %>% filter(M0_bM0_sig.adj < 0.05)
 Branch_site <- Branch_site %>% filter(bsM0H1_bsM0H0_sig.adj < 0.05)
 
 #Branch_site %>% rowwise() %>%

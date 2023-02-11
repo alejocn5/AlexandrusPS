@@ -1,33 +1,21 @@
 # AlexandrusPS: a user-friendly pipeline for genome-wide positive selection analysis 
 
-This repository contains procedures and scripts from AlexandrusPS:
+This repository contains procedures and scripts from AlexandrusPS:  
+* [Introduction](#introduction)
 * [Installation](#installation)
     + [Recommended - deploy with Docker](#recommended---deploy-with-docker)
       - [How to Docker](#how-to-docker)
     + [Manual installation and requirements](#manual-installation-and-requirements)
 * [5 simple steps to run AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
     + [Example](#example)
+    + [AlexandrusPS applications and functionalities](#alexandrusps-applications-and-functionalities)
+* [References](#references)
 
-## Installation
-### Recommended - deploy with Docker
-
-The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
-
-```
-docker pull vivienschoonenberg/alexandrusps:0.6
-```
-
-Available tags can be found [here](https://hub.docker.com/repository/docker/vivienschoonenberg/alexandrusps).
-### Introduction
-
+## Introduction
 AlexandrusPS is a high-throughput user-friendly pipeline designed to simplify the genome-wide positive selection analysis by deploying well-established protocols of CodeML [[1]](#1). This can be especially advantageous for researchers with no evolutionary or bioinformatics experience.
 AlexandrusPS's main aim is to overcome the technical challenges of a genome-wide positive selection analysis such as i) the execution of an accurate orthology analysis as a precondition for positive selection analysis; ii) preparing and organizing configuration files for CodeML; iii)  doing a positive selection analysis on large sets of sequences and iv) generate an output that is easy to interpret including all relevant maximum likelihood (ML) and log ratio test (LRT) results.
 The only input data AlexandrusPS needs are the CDS and amino acid sequences of interest. AlexandrusPS provides a simplified output that comprises a table including all relevant results which can be easily extracted for assessment and publication. AlexandrusPS produces and provides all intermediate data such as the results of the ProteinOrtho [[4]](#4) orthology analysis and the multiple alignments. Default parameters of all steps can be adjusted. 
-### Requirements
-The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker here.
 
-docker pull vivienschoonenberg/alexandrusps:0.6
-Available tags can be found here.
 
 ## Installation
 ### Recommended - deploy with Docker
@@ -58,7 +46,42 @@ Here, src is the absolute path to the folder you would like to mount. Dst specif
 
 You can also use the mounted folder in the container to copy any result or output files to your own local system.
 
-### 5 simple steps to run AlexandrusPS
+### Manual installation and requirements
+AlexandrusPS was devised to run without any previous installation given the docker container. Nevertheless, the user is given the choice to install all the necessary programs and modules independently.
+#### Perl
++ Perl 5: https://www.perl.org/
+* The following perl modules are required and can be installed them using cpan:
++ Data::Dumper
++ List::MoreUtils qw(uniq)
++ Array::Utils qw(:all)
++ String::ShellQuote qw(shell_quote)
++ List::Util
++ POSIX
+
+#### R version 4.0.5
+
++ R: https://www.r-project.org/
+* The following libraries are necessary:
+
++ dplyr
++ ggplot2
++ caret
++ reshape2
++ ggpubr
++ RColorBrewer
++ stringr
++ viridis
++ Rstatix
+
+#### Protein orthology search
++ ProteinOrtho (https://www.bioinf.uni-leipzig.de/Software/proteinortho/) v6.06
+#### Aligners
++ PRANK multiple sequence aligner (http://wasabiapp.org/software/prank/) v.170427
++ PAL2NAL http://www.bork.embl.de/pal2nal/#Download v14
+#### PAML
+The PAML software package includes CodeML (http://abacus.gene.ucl.ac.uk/software/paml.html) - v4.8a or v4.7
+
+## 5 simple steps to run AlexandrusPS
 
 #### Step 1 - Sequence name indexing and quality control 
 For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with correspondent CDS sequences (the same as the amino acid sequences but as CDS sequences). It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. For example: if you want to analyze 6 different species, you should provide 12 FASTA files (6 '.cds.fasta' and 6 ‘.pep.fasta’ files), make sure to follow a similar structure as the example data set in the './Example’ (Fig. 2N) directory, see Figure 1.
@@ -335,41 +358,6 @@ Figure 6. Outputs files in ./Final_table_positive_selection (Fig. 2J) after Alex
 
 
 **Output:** Table including only genes under positive selection at the branch and branch-site level ‘./Final_table_positive_selection/Branch_model.txt’ (Fig. 6A) and ‘./Final_table_positive_selection/Branch_site_model.txt’ (Fig. 6C). The intermediate files (from SUBSTEP 5 to 21) will be compressed in (‘./Results_Branch/[_OGC_id_]bs.tar.gz’) (Fig. 2F).
-
-### Alternative to Docker
-AlexandrusPS was devised to run without any previous installation given the docker container. Nevertheless, the user is given the choice to install all the necessary programs and modules independently.
-#### Perl
-+ Perl 5: https://www.perl.org/
-* The following perl modules are required and can be installed them using cpan:
-+ Data::Dumper
-+ List::MoreUtils qw(uniq)
-+ Array::Utils qw(:all)
-+ String::ShellQuote qw(shell_quote)
-+ List::Util
-+ POSIX
-
-#### R version 4.0.5
-
-+ R: https://www.r-project.org/
-* The following libraries are necessary:
-
-+ dplyr
-+ ggplot2
-+ caret
-+ reshape2
-+ ggpubr
-+ RColorBrewer
-+ stringr
-+ viridis
-+ Rstatix
-
-#### Protein orthology search
-+ ProteinOrtho (https://www.bioinf.uni-leipzig.de/Software/proteinortho/) v6.06
-#### Aligners
-+ PRANK multiple sequence aligner (http://wasabiapp.org/software/prank/) v.170427
-+ PAL2NAL http://www.bork.embl.de/pal2nal/#Download v14
-#### PAML
-The PAML software package includes CodeML (http://abacus.gene.ucl.ac.uk/software/paml.html) - v4.8a or v4.7
 
 
 ## References

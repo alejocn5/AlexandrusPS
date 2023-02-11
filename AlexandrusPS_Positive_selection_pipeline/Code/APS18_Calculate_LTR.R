@@ -1,12 +1,12 @@
 library(dplyr)
-library(ggplot2)
+#library(ggplot2)
 library(caret)
 library(reshape2)
-library(ggpubr)
-library(RColorBrewer)
+#library(ggpubr)
+#library(RColorBrewer)
 library(stringr)
-library(viridis)
-library(ggpubr)
+#library(viridis)
+#library(ggpubr)
 library(rstatix)
 
 
@@ -20,7 +20,6 @@ test <- PositiveSelectionTable %>% rowwise() %>%
   mutate(M1_M2_LRT=2*(M2_lnL-M1_lnL)) %>%
   mutate(M7_M8_DoF=(M8_np-M7_np)) %>%
   mutate(M7_M8_LRT=2*(M8_lnL-M7_lnL)) %>%
-  
   mutate(M0_M3_sig = pchisq(M0_M3_LRT, M0_M3_DoF, lower.tail=F)) %>%
   mutate(M1_M2_sig = pchisq(M1_M2_LRT, M1_M2_DoF, lower.tail=F)) %>%
   mutate(M7_M8_sig = pchisq(M7_M8_LRT, M7_M8_DoF, lower.tail=F)) #%>%
