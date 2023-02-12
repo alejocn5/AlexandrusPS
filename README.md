@@ -103,7 +103,11 @@ i) Both FASTA files need to have the same name, the only difference should be th
 ii) AlexandrusPS includes the script APS1_IndexGenerator_QualityControl.pl which generates a species name index based on 6 letters from the binomial name - three from the genus (hom) and three from the specific epithet (sap) - resulting in species name index  ‘homsap’. Hence the user should make sure that the file names include only the species name (without special characters besides the mentioned ‘_’) and that the 6 letters do not overlap with the species name index of any other species included in the analysis.
 
 #### Step 4 - Quality control of your sequences (highly recommended to perform before running ./AlexandrusPS.sh)
-After you added your sequence FASTA files to the './Fasta’ directory (Fig. 2K)  and before you run AlexandrusPS.sh, we highly recommend to run the script ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A) to check whether your sequence files ('.cds.fasta' and ‘.pep.fasta’) are suitable for positive selection analysis with AlexandrusPS. In case your sequences (either one or both) are not suitable for AlexandrusPS you will find one or two error files (‘Error_missed_sequences.txt’ (Fig. 3A) and/or ‘Error_with_Fasta_header.txt’') (Fig. 3B) in the main directory in which you executed ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A). If after running the script none of these files appear it means your sequence files are usable for the analysis. The content of the error files is described and explained in this github repository under the section ‘Troubleshooting errors that you may encounter during quality control’. The quality control is performed by the Perl script  'APS1_IndexGenerator_QualityControl.pl’ which is also called and executed by  ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A).
+After you added your sequence FASTA files to the './Fasta’ directory (Fig. 2K)  and before you run AlexandrusPS.sh, we highly recommend to run the script ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A) 
+```
+./Sequences_quality_control_AlexandrusPS.sh
+```
+to check whether your sequence files ('.cds.fasta' and ‘.pep.fasta’) are suitable for positive selection analysis with AlexandrusPS. In case your sequences (either one or both) are not suitable for AlexandrusPS you will find one or two error files (‘Error_missed_sequences.txt’ (Fig. 3A) and/or ‘Error_with_Fasta_header.txt’') (Fig. 3B) in the main directory in which you executed ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A). If after running the script none of these files appear it means your sequence files are usable for the analysis. The content of the error files is described and explained in this github repository under the section ‘Troubleshooting errors that you may encounter during quality control’. The quality control is performed by the Perl script  'APS1_IndexGenerator_QualityControl.pl’ which is also called and executed by  ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A).
 
 Note that this quality control is by default executed by the AlexandrusPS pipeline. The pipeline will continue the analysis with the sequences that pass the quality control even if there are some sequences in ‘Error_missed_sequences.txt’ by excluding these from the analysis. It will however interrupt the process if it finds the file ‘Error_with_Fasta_header.txt’.
 
@@ -132,9 +136,16 @@ In case any of these two error files are generated AlexandrusPS will stop execut
 
 #### Step 5 - After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by typing ‘./AlexandrusPS.sh’ (Fig. 2D) in terminal.
 
+```
+./AlexandrusPS.sh
+```
 
 ### Example
 To run the example, navigate to the main directory of the pipeline (Fig. 2) in your terminal and start the analysis by typing  './Example_AlexandrusPS.sh’ (Fig. 2B).
+
+```
+./Example_AlexandrusPS.sh
+```
 
 This executable will transfer the FASTA files from the example directory to the FASTA directory and execute AlexandrusPS.sh with the example dataset provided together with the pipeline.
 
