@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-cp ./Example/*.fasta ./Fasta/.
-sh AlexandrusPS.sh
+# cp ./Example/*.fasta ./Fasta/.
+sh AlexandrusPS.sh -i Example
 
 # FastaSeq=./Fasta/*.pep.fasta
 # 	mkdir ./Curated_Sequences
@@ -74,5 +74,3 @@ sh AlexandrusPS.sh
 # 	tar -czvf ./Results/$L.tar.gz ./Orthology_Groups/$L
 # 	rm -r ./Orthology_Groups/$L
 # done
-
-
