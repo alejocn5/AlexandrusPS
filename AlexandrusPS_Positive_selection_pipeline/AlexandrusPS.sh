@@ -207,6 +207,7 @@ cp -R ./Curated_Sequences $output/.
 cp -R ./Results $output/.
 cp -R ./Results_Branch $output/.
 
+echo "All done!"
 #screen -d -m sh CleanAlexandrusPS.sh
 # for l in $list
 
