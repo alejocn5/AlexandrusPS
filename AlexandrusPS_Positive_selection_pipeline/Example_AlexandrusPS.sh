@@ -2,7 +2,7 @@
 
 
 # cp ./Example/*.fasta ./Fasta/.
-sh AlexandrusPS.sh -i Example
+sh AlexandrusPS.sh -i ./Example
 
 # FastaSeq=./Fasta/*.pep.fasta
 # 	mkdir ./Curated_Sequences
