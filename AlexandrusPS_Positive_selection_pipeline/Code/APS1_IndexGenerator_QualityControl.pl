@@ -98,14 +98,7 @@ my ($CreateErrorFile) = &Error_file_empty_fasta_Files( $S4_pepHeader_h1, $S5_pep
 
 sub Error_file_empty_fasta_Files {
     my ($pepHeader, $pepSeq, $cdsHeader, $cdsSeq) = @_;
-    
-
-my ($PEPemptynes) = &empty( $pepHeader, $pepSeq);
-my ($PEPemptyHeaders) = &NoEmptyHeaders( $pepHeader, $pepSeq);
-my ($CDSemptynes) = &empty( $cdsHeader, $cdsSeq);
-my ($CDSemptyHeaders) = &NoEmptyHeaders( $cdsHeader, $cdsSeq);
-my ($HeadersCOmparison) = &CDScomparablePEP( $cdsHeader, $pepHeader);
-	if  ($PEPemptynes == 0  || $PEPemptyHeaders == 0  || $CDSemptynes == 0 || $CDSemptyHeaders == 0 || $HeadersCOmparison == 0){
+	if  ($pepHeader <= 1  || $pepSeq <= 1  || $CDSemptynes <= 1  || $cdsHeader <= 1  || $cdsSeq <= 1 ){
 		open my $Error_seq, ">> $directory/Error_with_Fasta_header.txt";
 		print $Error_seq "";
 	}else{
