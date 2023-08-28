@@ -51,6 +51,8 @@ RUN wget http://abacus.gene.ucl.ac.uk/software/paml4.9j.tgz && \
 # run layer
 FROM base AS runtime 
 
+RUN useradd -ms /bin/bash admin
+
 # Copy build artifacts from build layer
 COPY --from=build /usr/local /usr/local
 
@@ -67,9 +69,26 @@ RUN cp -R ./programs/paml4.9j/src/baseml ./bin/ &&\
   cp -R ./programs/paml4.9j/src/codeml ./bin/ &&\
   cp -R ./programs/paml4.9j/src/evolver ./bin/
 
+# Create the writable directory
+RUN mkdir /tmp/screens
+
+# Set appropriate permissions
+RUN chmod 700 /tmp/screens
+ENV SCREENDIR=/tmp/screens
+
 WORKDIR /app
 # copy AlexandrusPS
 COPY AlexandrusPS_Positive_selection_pipeline ./AlexandrusPS_Positive_selection_pipeline
+
+# set permissions
+RUN chown -R 755:755 /app
+RUN chmod 755 /app
+RUN chown -R 755:755 /usr
+RUN chmod 755 /usr
+RUN chown -R 755:755 /programs
+RUN chmod 755 /programs
+RUN chmod a+x /usr/bin/prank
+#RUN chown root:root /usr/bin/prank
 
 # mark shell scripts as executable
 WORKDIR /app/AlexandrusPS_Positive_selection_pipeline

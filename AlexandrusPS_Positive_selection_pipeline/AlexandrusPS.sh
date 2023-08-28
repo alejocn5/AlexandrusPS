@@ -30,10 +30,12 @@ mkdir $input/Results_Branch
 mkdir $input/Final_table_positive_selection
 mkdir $input/Failed_files
 
-mv ./Code $input
-mv ./Data $input
-mv ./G0 $input
-mv ./Usage_core_percentage $input
+#chmod u+w $input
+
+cp -r ./Code $input
+cp -r ./Data $input
+cp -r ./G0 $input
+cp -r ./Usage_core_percentage $input
 cp $input/*.fasta $input/Fasta/.
 
 #STEP 1: Index generator, Name of headers and sequences modification, prepare files for orthology prediction, quality control
@@ -55,17 +57,17 @@ for Fsq in $FastaSeq
  	FAS=`basename $Fsq`
  	F=$(echo "$FAS" | sed -nE 's/(.*)(\.pep\.fasta)/\1/p')
 echo "$input/Fasta/$F.pep.fasta $input/Fasta/$F.cds.fasta"
-	perl $input/Code/APS1_IndexGenerator_QualityControl.pl $input/Fasta/$F.pep.fasta $input/Fasta/$F.cds.fasta
-	mv *.cur.pep.fasta $input/Orthology_Prediction/.
+	perl $input/Code/APS1_IndexGenerator_QualityControl.pl $input/Fasta/$F.pep.fasta $input/Fasta/$F.cds.fasta $input
+	mv $input/*.cur.pep.fasta $input/Orthology_Prediction/.
 done
 
-	mv CompiledSpecies.cds.fasta $input/Curated_Sequences/.
-	mv CompiledSpecies.pep.fasta $input/Curated_Sequences/.
-	cp Specie_name_index_directory.txt $output
-	mv Specie_name_index_directory.txt $input/Curated_Sequences/.
+	mv $input/CompiledSpecies.cds.fasta $input/Curated_Sequences/.
+	mv $input/CompiledSpecies.pep.fasta $input/Curated_Sequences/.
+	cp $input/Specie_name_index_directory.txt $output
+	mv $input/Specie_name_index_directory.txt $input/Curated_Sequences/.
 
 
-Error=Error_missed_sequences.txt
+Error=$input/Error_missed_sequences.txt
 if [ ! -f $Error ]
 	then
 	echo "QUALITY CONTROL (1/2):ALL THE SEQUENCES ARE CANDIDATES FOR THE ANALYSIS!"
@@ -74,7 +76,7 @@ else
 	echo "the analysis will continue with the sequences that passed the quality control"
 fi 	
 	
-Errorh=Error_with_Fasta_header.txt
+Errorh=$input/Error_with_Fasta_header.txt
 if [ ! -f $Errorh ]
 	then
 	echo "QUALITY CONTROL (2/2):NO EMPTY SEQUENCES OR FILES!"
@@ -86,13 +88,12 @@ if [ ! -f $Errorh ]
 	echo "============================================================================================================================"
 	echo "============================================================================================================================"
 	echo "============================================================================================================================"
-	ls
+
 	cd $input/Orthology_Prediction
-	ls
 	ls -I list_of_pepFiles.txt > list_of_pepFiles.txt
 	perl ../Code/APS2_ProteinOrthoScriptGenerator.pl list_of_pepFiles.txt 
 	sh ProteinOrthoTable_executable.sh
-	rm *.cur.pep.fasta*
+	rm *.cur.pep.fasta
 	rm list_of_pepFiles.txt
 	echo "============================================================================================================================"
 	echo "============================================================================================================================"

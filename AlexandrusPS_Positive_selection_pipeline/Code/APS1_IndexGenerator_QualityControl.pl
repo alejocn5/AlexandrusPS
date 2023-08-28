@@ -8,7 +8,7 @@ use List::MoreUtils qw(uniq);
 use Array::Utils qw(:all);
 use String::ShellQuote qw(shell_quote); # cpan String::ShellQuote
 use List::Util;
-
+use Cwd;
 
 #recomendations: check that all the sequences are represented in both fasta files (.pep.fasta and .cds.fasta), with the same headers, also we recommend those headers should be simple (no special characters)  and short as possible.
 #This script generate a Specie name index, which is simply the sum of the three first letters of the genus and the three first letters of the specific epithet of a binomial nomenclature
@@ -18,6 +18,9 @@ use List::Util;
 #Input = Fasta file
 open my $PEP, "< $ARGV[0]";
 open my $CDS, "< $ARGV[1]";
+my $directory = $ARGV[2];
+# Get the absolute path of the provided directory
+$directory = Cwd::abs_path($directory);
 
 my @A1_pepHeader_h1;
 my @A2_pepSeq_h1;
@@ -49,10 +52,10 @@ my $specific_epithet = $A3_NameSpecie_A2[1];
 	my @A4_genusReduction_A3 = (split //, $genus);
 	my @A5_specificEpithetReduction_A3 = (split //, $specific_epithet);
 my $Specie_name_Index = "$A4_genusReduction_A3[0]$A4_genusReduction_A3[1]$A4_genusReduction_A3[2]$A5_specificEpithetReduction_A3[0]$A5_specificEpithetReduction_A3[1]$A5_specificEpithetReduction_A3[2]";
-open my $SPNewPEP, "> $Specie_name_Index.cur.pep.fasta";
-open my $AllSPpep, ">> CompiledSpecies.pep.fasta";
-open my $AllSPcds, ">> CompiledSpecies.cds.fasta";
-open my $dic, ">> Specie_name_index_directory.txt";
+open my $SPNewPEP, "> $directory/$Specie_name_Index.cur.pep.fasta";
+open my $AllSPpep, ">> $directory/CompiledSpecies.pep.fasta";
+open my $AllSPcds, ">> $directory/CompiledSpecies.cds.fasta";
+open my $dic, ">> $directory/Specie_name_index_directory.txt";
 print $dic "$Specie_name_Index\t$Scientific_name\n";
 #Add Index to the header, and generate Error file for missed sequences
 	foreach my $S1_KeyHead_h1 (keys %H1_KHeaderVFastaOnelinePEP_Su5) {
@@ -69,7 +72,7 @@ print $dic "$Specie_name_Index\t$Scientific_name\n";
 			push @A3_cdsHeader_h2, ">$Specie_name_Index\@\@\@$S3_KeyHeadCDS_h1"; 
 			push @A4_CdsSeq_h2, $Fasta_sequence_cds; 	
 				}else{
-					open my $Missed_file, ">> Error_missed_sequences.txt";
+					open my $Missed_file, ">> $directory/Error_missed_sequences.txt";
 
 					print $Missed_file "$S1_KeyHead_h1\n$Fasta_sequence_pep\n"; 
 			}
@@ -103,7 +106,7 @@ my ($CDSemptynes) = &empty( $cdsHeader, $cdsSeq);
 my ($CDSemptyHeaders) = &NoEmptyHeaders( $cdsHeader, $cdsSeq);
 my ($HeadersCOmparison) = &CDScomparablePEP( $cdsHeader, $pepHeader);
 	if  ($PEPemptynes == 0  || $PEPemptyHeaders == 0  || $CDSemptynes == 0 || $CDSemptyHeaders == 0 || $HeadersCOmparison == 0){
-		open my $Error_seq, ">> Error_with_Fasta_header.txt";
+		open my $Error_seq, ">> $directory/Error_with_Fasta_header.txt";
 		print $Error_seq "";
 	}else{
         print "";
