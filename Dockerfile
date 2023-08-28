@@ -51,8 +51,6 @@ RUN wget http://abacus.gene.ucl.ac.uk/software/paml4.9j.tgz && \
 # run layer
 FROM base AS runtime 
 
-RUN useradd -ms /bin/bash admin
-
 # Copy build artifacts from build layer
 COPY --from=build /usr/local /usr/local
 

@@ -23,28 +23,30 @@ The only input data AlexandrusPS needs are the CDS and amino acid sequences of i
 The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
 
 ```
-docker pull vivienschoonenberg/alexandrusps:0.6
+docker pull vivienschoonenberg/alexandrusps:0.9.7
 ```
 
 Available tags can be found [here](https://hub.docker.com/repository/docker/vivienschoonenberg/alexandrusps).
 
 #### How to Docker
 
-Start an interactive bash shell with the alexandrusps container:
+Create a directory in which you'd like to run AlexandrusPS. Make this your working directory directory, and make one folder in which you place all FASTA files, and a folder for the output of AlexandrusPS. You will pass these two folders as input to AlexandrusPS.
+
+You can now run AlexandrusPS with:
 
 ```
-docker run --rm -it vivienschoonenberg/alexandrusps:0.6
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.7 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
 ```
-You will be in proper location to run AlexandrusPS. To quit the container, type 'exit'.
+Where ```-v $PWD:$PWD``` mounts your current working directory and ```-i $PWD/input -o $PWD/output``` specifies the paths to the in- and output folders. 
 
-To access local files (necessary), you can mount your home or a different folder in the container:
+Don't forget to add ```--platform linux/amd64``` if you're on a Mac with new M chip. 
+#### Singularity
+If you wish to run ALexandrusPS on an high performance cluster with singularity, you can. Simply download the docker image and build a .sif image. You can then run:
 
 ```
-docker run --rm --mount "type=bind,src=/Users/$(id -un),dst=/app/$(id -un)" -u $(id -u):$(id -g) -it vivienschoonenberg/alexandrusps:0.6 
+singularity exec --bind /home/user/mydirectory:/mnt --pwd /app/AlexandrusPS_Positive_selection_pipeline/ AlexandrusPS.sif ./AlexandrusPS.sh -i /mnt/input -o /mnt/output
 ```
-Here, src is the absolute path to the folder you would like to mount. Dst specifies the folder to be mounted in the "app" directory with your username/id. The app folder contains the AlexandrusPS pipeline as well, which is the folder you automatically enter when starting a container from the image (you can move up to the "app" folder using ``` cd .. ```).
-
-You can also use the mounted folder in the container to copy any result or output files to your own local system.
+With ```--bind /home/user/mydirectory:/mnt``` you mount the folder "/home/user/mydirectory" to the "/mnt" location in the singularity container. In this folder you should have made the input folder (containing all fasta files), and an output folder. These again are specified with ```-i /mnt/input -o /mnt/output```. Further, for singularity use of the original docker image it is important to specify the working directory of the container with ```--pwd /app/AlexandrusPS_Positive_selection_pipeline/```.
 
 ### Manual installation and requirements
 AlexandrusPS was devised to run without any previous installation given the docker container. Nevertheless, the user is given the choice to install all the necessary programs and modules independently.
