@@ -23,7 +23,7 @@ The only input data AlexandrusPS needs are the CDS and amino acid sequences of i
 The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
 
 ```
-docker pull vivienschoonenberg/alexandrusps:0.9.7
+docker pull vivienschoonenberg/alexandrusps:0.9.9
 ```
 
 Available tags can be found [here](https://hub.docker.com/repository/docker/vivienschoonenberg/alexandrusps).
@@ -35,7 +35,7 @@ Create a directory in which you'd like to run AlexandrusPS. Make this your worki
 You can now run AlexandrusPS with:
 
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.7 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
 ```
 Where ```-v $PWD:$PWD``` mounts your current working directory and ```-i $PWD/input -o $PWD/output``` specifies the paths to the in- and output folders. 
 
