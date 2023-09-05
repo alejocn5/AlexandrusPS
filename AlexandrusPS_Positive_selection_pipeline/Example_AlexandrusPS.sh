@@ -1,8 +1,34 @@
 #!/bin/bash
 
+helpFunction()
+{
+   echo ""
+   echo "Usage: $0 -i Working directory"
+   echo -e "\t-i Directory containing all FASTA input files"
+   echo -e "\t-o Directory to write output of AlexandrusPS"
+   exit 1 # Exit script after printing help
+}
 
-# cp ./Example/*.fasta ./Fasta/.
-sh AlexandrusPS.sh -i ./Example
+# pasre arguments from the command line - working directory for example to run in (outside container)
+while getopts "i:o:" opt
+do
+    case "$opt" in
+        i) input="$OPTARG";;
+		?) helpFunction ;; # print helpfunction
+    esac
+done
+
+echo "input: $input";
+
+# make output folder
+mkdir $input/output
+
+echo "output: $input/output";
+
+#copy fasta files to outside of container to working directory passed by user
+cp ./Example/*.fasta $input/.
+
+sh AlexandrusPS.sh -i $input -o $input/output
 
 # FastaSeq=./Fasta/*.pep.fasta
 # 	mkdir ./Curated_Sequences
