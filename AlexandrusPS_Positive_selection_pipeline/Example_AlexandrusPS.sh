@@ -4,13 +4,12 @@ helpFunction()
 {
    echo ""
    echo "Usage: $0 -i Working directory"
-   echo -e "\t-i Directory containing all FASTA input files"
-   echo -e "\t-o Directory to write output of AlexandrusPS"
+   echo -e "\t-i Working directory, FASTA input files will be copied to this location"
    exit 1 # Exit script after printing help
 }
 
 # pasre arguments from the command line - working directory for example to run in (outside container)
-while getopts "i:o:" opt
+while getopts "i:" opt
 do
     case "$opt" in
         i) input="$OPTARG";;
@@ -22,8 +21,6 @@ echo "input: $input";
 
 # make output folder
 mkdir $input/output
-
-echo "output: $input/output";
 
 #copy fasta files to outside of container to working directory passed by user
 cp ./Example/*.fasta $input/.
