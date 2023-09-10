@@ -22,13 +22,14 @@ echo "FastaFiles: $input";
 echo "input: $input/*.fasta";
 
 # check if output directory exists, otherwise make it.
-if [ -d "$output"]
+if [ -d "$output" ];
 then
 	echo "output: $output/."
 else
 	echo "Error: $output not found, creating this directory..."
 	mkdir $output
 	echo "Made output directory: $output/."
+fi
 
 mkdir $input/Fasta
 mkdir $input/LIST

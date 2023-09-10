@@ -17,10 +17,10 @@ do
     esac
 done
 
-echo "input: $input";
+echo "Working directory: $input";
 
 # make output folder
-mkdir $input/output
+# mkdir $input/output
 
 #copy fasta files to outside of container to working directory passed by user
 cp ./Example/*.fasta $input/.
