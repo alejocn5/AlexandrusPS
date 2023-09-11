@@ -27,16 +27,16 @@ then
 	echo "output: $output/."
 else
 	echo "Error: $output not found, creating this directory..."
-	mkdir $output
+	mkdir -p $output
 	echo "Made output directory: $output/."
 fi
 
-mkdir $input/Fasta
-mkdir $input/LIST
-mkdir $input/Results
-mkdir $input/Results_Branch
-mkdir $input/Final_table_positive_selection
-mkdir $input/Failed_files
+mkdir -p $input/Fasta
+mkdir -p $input/LIST
+mkdir -p $input/Results
+mkdir -p $input/Results_Branch
+mkdir -p $input/Final_table_positive_selection
+mkdir -p $input/Failed_files
 
 #chmod u+w $input
 
@@ -56,8 +56,8 @@ cp $input/*.fasta $input/Fasta/.
 	echo "============================================================================================================================"
  FastaSeq=$input/Fasta/*.pep.fasta
  	echo "Performing sequences quality control"
-	mkdir $input/Curated_Sequences
-	mkdir $input/Orthology_Prediction
+	mkdir -p $input/Curated_Sequences
+	mkdir -p $input/Orthology_Prediction
 	nproc > $input/Data/Number_cores.txt
 
 for Fsq in $FastaSeq
@@ -122,7 +122,7 @@ if [ ! -f $Errorh ]
 	perl $input/Code/APS5_CoreCalculator.pl $input/Data/Number_cores.txt $input/Usage_core_percentage/usage_core_percentage.txt
 	cp $input/Code/APS6_CoresGenerator.sh $input/.
 	mv ./Group.list $input
-	mkdir $input/G0/Orthology_Groups
+	mkdir -p $input/G0/Orthology_Groups
 	cp $input/Curated_Sequences/* $input/G0/Orthology_Groups/.
 	 ls $input/LIST/ >> $input/G0/list.txt
 	cd $input
@@ -199,7 +199,7 @@ Rscript ./Code/APS23_BranchSiteAnalysis.R
 	
 
 	rm -r ./LIST
-	mkdir ./LIST
+	mkdir -p ./LIST
 	rm  APS6_CoresGenerator.sh
 	rm ./G0/list.txt
 	rm  ./G0/Orthology_Groups/* 
