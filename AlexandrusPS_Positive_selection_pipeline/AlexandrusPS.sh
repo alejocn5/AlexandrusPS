@@ -119,9 +119,9 @@ if [ ! -f $Errorh ]
 	mv *_.list ../LIST/.
 	ls
 	cd ../..
-	perl $input/Code/APS5_CoreCalculator.pl $input/Data/Number_cores.txt $input/Usage_core_percentage/usage_core_percentage.txt
+	perl $input/Code/APS5_CoreCalculator.pl $input/Data/Number_cores.txt $input/Usage_core_percentage/usage_core_percentage.txt $input
 	cp $input/Code/APS6_CoresGenerator.sh $input/.
-	mv ./Group.list $input
+	# mv ./Group.list $input
 	mkdir -p $input/G0/Orthology_Groups
 	cp $input/Curated_Sequences/* $input/G0/Orthology_Groups/.
 	 ls $input/LIST/ >> $input/G0/list.txt
