@@ -3,22 +3,24 @@
 This repository contains procedures and scripts from AlexandrusPS:  
 * [Introduction](#introduction)
 * [Installation](#installation)
-    + [Recommended - deploy with Docker](#recommended---deploy-with-docker)
+    + [Deploy with Docker - recommended](#deploy-with-docker---recommended)
       - [How to Docker](#how-to-docker)
+      - [Singularity](#singularity)
     + [Manual installation and requirements](#manual-installation-and-requirements)
-* [5 simple steps to run AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
+* [Running AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
+    + [Preparing input]()
     + [Example](#example)
-    + [AlexandrusPS applications and functionalities](#alexandrusps-applications-and-functionalities)
+* [AlexandrusPS applications and functionalities](#alexandrusps-applications-and-functionalities)
 * [References](#references)
 
 ## Introduction
 AlexandrusPS is a high-throughput user-friendly pipeline designed to simplify the genome-wide positive selection analysis by deploying well-established protocols of CodeML [[1]](#1). This can be especially advantageous for researchers with no evolutionary or bioinformatics experience.
-AlexandrusPS's main aim is to overcome the technical challenges of a genome-wide positive selection analysis such as i) the execution of an accurate orthology analysis as a precondition for positive selection analysis; ii) preparing and organizing configuration files for CodeML; iii)  doing a positive selection analysis on large sets of sequences and iv) generate an output that is easy to interpret including all relevant maximum likelihood (ML) and log ratio test (LRT) results.
-The only input data AlexandrusPS needs are the CDS and amino acid sequences of interest. AlexandrusPS provides a simplified output that comprises a table including all relevant results which can be easily extracted for assessment and publication. AlexandrusPS produces and provides all intermediate data such as the results of the ProteinOrtho [[4]](#4) orthology analysis and the multiple alignments. Default parameters of all steps can be adjusted. 
+AlexandrusPS's main aim is to overcome the technical challenges of a genome-wide positive selection analysis such as i) the execution of an accurate orthology analysis as a precondition for positive selection analysis; ii) preparing and organizing configuration files for CodeML; iii) performing a positive selection analysis on large sets of sequences and iv) generate an output that is easy to interpret including all relevant maximum likelihood (ML) and log ratio test (LRT) results.
+The only input data AlexandrusPS needs are the CDS and amino acid sequences of interest. AlexandrusPS provides a simplified output that comprises a table including all relevant results which can be easily extracted for assessment and publication. AlexandrusPS produces and provides all intermediate data such as the results of the ProteinOrtho orthology analysis and the multiple alignments [[4]](#4). Default parameters of all steps can be adjusted. 
 
 
 ## Installation
-### Recommended - deploy with Docker
+### Deploy with Docker - Recommended
 
 The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
 
@@ -41,7 +43,13 @@ Where ```-v $PWD:$PWD``` mounts your current working directory and ```-i $PWD/in
 
 Don't forget to add ```--platform linux/amd64``` if you're on a Mac with new M chip. 
 #### Singularity
-If you wish to run ALexandrusPS on an high performance cluster with singularity, you can. Simply download the docker image and build a .sif image. You can then run:
+If you wish to run ALexandrusPS on an high performance cluster with singularity, you can. Simply download the docker image and build a .sif image. Alternatively, you can pull the singularity image directly from sylabs (might be updated less freqeuntly):
+
+```
+singularity pull --arch amd64 library://vivienschoonenberg/alexandrusps/alexandrusps:0.9.9.3
+```
+
+You can then run:
 
 ```
 singularity exec --bind /home/user/mydirectory:/mnt --pwd /app/AlexandrusPS_Positive_selection_pipeline/ AlexandrusPS.sif ./AlexandrusPS.sh -i /mnt/input -o /mnt/output
@@ -83,17 +91,19 @@ AlexandrusPS was devised to run without any previous installation given the dock
 #### PAML
 The PAML software package includes CodeML (http://abacus.gene.ucl.ac.uk/software/paml.html) - v4.8a or v4.7
 
-## 5 simple steps to run AlexandrusPS
+## Running AlexandrusPS
 
 #### Step 1 - Sequence name indexing and quality control 
-For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with correspondent CDS sequences (the same as the amino acid sequences but as CDS sequences). It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. For example: if you want to analyze 6 different species, you should provide 12 FASTA files (6 '.cds.fasta' and 6 ‘.pep.fasta’ files), make sure to follow a similar structure as the example data set in the './Example’ (Fig. 2N) directory, see Figure 1.
+For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with corresponding CDS sequences.
 
+> [!IMPORTANT]  
+> It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. 
+
+For example, if you want to analyze 6 different species, you should provide 12 FASTA files (6 '.cds.fasta' and 6 ‘.pep.fasta’ files), make sure to follow a similar structure as the example data set in the './Example’ directory, see Figure 1.
 
 ![Fig1](https://user-images.githubusercontent.com/44226409/216979380-f96a7ad9-c6e5-446c-b0d5-3f0fa836e743.jpg)
 
-Figure 1- Example sequence files with correct naming 
-
-#### Step 2 - Enter to the main directory of AlexandrusPS (cd ‘./AlexandrusPS’) and paste the sequence FASTA files into the directory ‘./Fasta’.
+Figure 1 - Example sequence files with correct naming 
 
 #### Step 3 - Follow binomial nomenclature rules for naming the FASTA files, this formating ensures the proper functioning of the pipeline. Here a step by step example for human:
 * 1) Find the scientific name for human in binomial nomenclature ("two-term naming system") in which first term is genus or generic name => Homo and the second term is the specific name or specific epithet => sapiens
@@ -153,7 +163,7 @@ This executable will transfer the FASTA files from the example directory to the 
 
 The output of this example analysis will include the following result: five of the six protein ortho groups included in the analysis are found to be under positive selection (HLA-DPA1, TLR1, NKG7, CD4, TLR8) and one without positive selection (NUP62CL). 
 
-### AlexandrusPS applications and functionalities
+## AlexandrusPS applications and functionalities
 The following explains all the substeps and scripts (in perl or R) that are executed sequentially once AlexandrusPS has been initialized, focusing on:
 * 1) Function 
 * 2) Input files
