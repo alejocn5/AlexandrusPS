@@ -80,7 +80,7 @@ if [ ! -f $Error ]
 	then
 	echo "QUALITY CONTROL (1/2):ALL THE SEQUENCES ARE CANDIDATES FOR THE ANALYSIS!"
 else
-	echo "QUALITY CONTROL (1/2):SOME OF THE HEADERS IN THE AMINO ACID FASTA FILE (CHECK FILE: Error_missed_sequences.txt) WHERE NOT FOUND THE DNA SEQUENCES"
+	echo "QUALITY CONTROL (1/2):SOME OF THE HEADERS IN THE AMINO ACID FASTA FILE (CHECK FILE: Error_missed_sequences.txt) WERE NOT FOUND THE DNA SEQUENCES"
 	echo "the analysis will continue with the sequences that passed the quality control"
 fi 	
 	

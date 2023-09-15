@@ -9,9 +9,10 @@ This repository contains procedures and scripts from AlexandrusPS:
     + [Manual installation and requirements](#manual-installation-and-requirements)
 * [Running AlexandrusPS](#running-alexandrusps)
     + [Input](#input)
-      - Sequence name indexing
-      - Nomenclature rules
-      - Quality control
+      - [Sequence name indexing](#sequence-name-indexing)
+      - [Nomenclature rules](#follow-binomial-nomenclature-rules)
+      - [Quality control](#quality-control-of-your-sequences)
+        - [Troubleshoot](#troubleshooting-errors-that-you-may-encounter-during-quality-control) 
     + [Example](#example)
 * [AlexandrusPS applications and functionalities](#alexandrusps-applications-and-functionalities)
 * [References](#references)
@@ -102,7 +103,7 @@ The following libraries are necessary:
 #### Sequence name indexing
 For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with corresponding CDS sequences.
 
-> [!IMPORTANT]  
+> [!WARNING]  
 > It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. 
 
 For example, if you want to analyze 6 different species, you should provide 12 FASTA files (6
@@ -122,44 +123,34 @@ A step by step example for human:
     - Homo_sapiens.cds.fasta (CDS FASTA file)
     - Homo_sapiens.pep.fasta (amino acid FASTA file)
 
-> [!IMPORTANT]  
+> [!NOTE]  
 > Two considerations:  
-1) Both FASTA files need to have the same name, the only difference should be the file extension ('.cds.fasta' and ‘.pep.fasta’).  
-2) AlexandrusPS includes the script APS1_IndexGenerator_QualityControl.pl which generates a species name index based on 6 letters from the binomial name - three from the genus (hom) and three from the specific epithet (sap) - resulting in species name index  ‘homsap’. Hence, the user should make sure that the file names include only the species name (without special characters besides the mentioned ‘_’) and that the 6 letters do not overlap with the species name index of any other species included in the analysis.
+> 1) Both FASTA files need to have the same name, the only difference should be the file extension ('.cds.fasta' and ‘.pep.fasta’).  
 
-#### Quality control of your sequences (highly recommended before running AlexandrusPS)
-After you added your sequence FASTA files to the './Fasta’ directory (Fig. 2K)  and before you run AlexandrusPS.sh, we highly recommend to run the script ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A) 
+> 2) AlexandrusPS includes the script APS1_IndexGenerator_QualityControl.pl which generates a species name index based on 6 letters from the binomial name - three from the genus (hom) and three from the specific epithet (sap) - resulting in species name index  ‘homsap’. Hence, the user should make sure that the file names include only the species name (without special characters besides the mentioned ‘_’) and that the 6 letters do not overlap with the species name index of any other species included in the analysis.
+
+#### Quality control of your sequences
+
+After you've prepared your input sequence FASTA files, create an input folder to store them all together. You can now opt to run a quality control check on your sequences before running AlexandrusPS (also has the QC step build in). 
+To do so you'd run:
 ```
-./Sequences_quality_control_AlexandrusPS.sh
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./Sequences_quality_control_AlexandrusPS.sh -i $PWD/input
 ```
-to check whether your sequence files ('.cds.fasta' and ‘.pep.fasta’) are suitable for positive selection analysis with AlexandrusPS. In case your sequences (either one or both) are not suitable for AlexandrusPS you will find one or two error files (‘Error_missed_sequences.txt’ (Fig. 3A) and/or ‘Error_with_Fasta_header.txt’') (Fig. 3B) in the main directory in which you executed ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A). If after running the script none of these files appear it means your sequence files are usable for the analysis. The content of the error files is described and explained in this github repository under the section ‘Troubleshooting errors that you may encounter during quality control’. The quality control is performed by the Perl script  'APS1_IndexGenerator_QualityControl.pl’ which is also called and executed by  ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A).
+Specify the folder containing the FASTA files with ```-i $PWD/input```. ```$PWD``` is your working directory, you can change this to wherever you've stored your files. Make sure to also adjust the folder you mount in the container ```-v $PWD:$PWD``` if you do.
 
-Note that this quality control is by default executed by the AlexandrusPS pipeline. The pipeline will continue the analysis with the sequences that pass the quality control even if there are some sequences in ‘Error_missed_sequences.txt’ by excluding these from the analysis. It will however interrupt the process if it finds the file ‘Error_with_Fasta_header.txt’.
+The QC checks whether your sequence files ('.cds.fasta' and ‘.pep.fasta’) are suitable for positive selection analysis with AlexandrusPS. In case your sequences (either one or both) are not suitable for AlexandrusPS you will find one or two error files (‘Error_missed_sequences.txt’ and/or ‘Error_with_Fasta_header.txt’) in the input directory which you passed as argument to ```Sequences_quality_control_AlexandrusPS.sh```. If after running the script none of these files appear it means your sequence files are usable for the analysis. The content of the error files is described and explained in this github repository under the section ‘[Troubleshooting errors that you may encounter during quality control](#troubleshooting-errors-that-you-may-encounter-during-quality-control)’. The quality control is performed by the Perl script  ```APS1_IndexGenerator_QualityControl.pl```.
 
+> [!NOTE]  
+> This quality control is executed by the AlexandrusPS pipeline by default. The pipeline will continue the analysis with the sequences that pass the quality control even if there are some sequences in ‘Error_missed_sequences.txt’ by excluding these from the analysis. It will however interrupt the process if it finds the file ‘Error_with_Fasta_header.txt’.
 
-![Fig2](https://user-images.githubusercontent.com/44226409/216979602-a10177a7-9d26-4254-889d-bbe031bedeb1.jpg)
-
-
-Figure 2. Content of the main directory of AlexandrusPS before execution of AlexandrusPS.sh
-
-![Fig3](https://user-images.githubusercontent.com/44226409/216979702-7ec0fe17-46fb-4118-80c0-b14e871baa60.jpg)
-
-
-Figure 3. Error files A) Not all amino acids sequences in the ‘.pep.fasta’ file are represented in the '.cds.fasta' file,  B) The headers in the ‘.pep.fasta’ and '.cds.fasta' files are different. 
-
-
-![Fig4](https://user-images.githubusercontent.com/44226409/216979802-f08f75f7-7e2b-43a1-b26c-480fdaae7ef0.jpg)
-
-
-Fig. 4. Content of the main directory of AlexandrusPS after execution of AlexandrusPS.sh
-
-Troubleshooting errors that you may encounter during quality control
+##### Troubleshooting errors that you may encounter during quality control
 In the quality control step AlexandrusPS looks for two main errors in the FASTA files: 
-* i) Not all amino acids sequences in the ‘.pep.fasta’ file are represented in the '.cds.fasta' file, in which case, the script Sequences_quality_control_AlexandrusPS.sh will generate an error file ‘Error_missed_sequences.txt’ (Fig. 3A) with all the peptide sequences which could not be found in the .cds.fasta file.
-* ii) The FASTA file is empty or/and contains empty FASTA entries (header but no sequence) or/and the '.pep.fasta' and the '.cds.fasta' files do not contain the same amount of sequences. In case any of these errors occur it will generate an empty file “Error_with_Fasta_header.txt” (Fig. 3B). If you encounter this error file, we recommend that you re-check the FASTA files and in particular the headers of your FASTA files ('.cds.fasta' and ‘.pep.fasta’). In general 1) avoid the use of special characters and 2) try to make your headers as short and simple as possible. 
+1. Not all amino acids sequences in the ‘.pep.fasta’ file are represented in the '.cds.fasta' file, in which case, the script Sequences_quality_control_AlexandrusPS.sh will generate an error file ‘Error_missed_sequences.txt’ (Fig. 3A) with all the peptide sequences which could not be found in the .cds.fasta file.
+2. The FASTA file is empty or/and contains empty FASTA entries (header but no sequence) or/and the '.pep.fasta' and the '.cds.fasta' files do not contain the same amount of sequences. In case any of these errors occur it will generate an empty file “Error_with_Fasta_header.txt” (Fig. 3B). If you encounter this error file, we recommend that you re-check the FASTA files and in particular the headers of your FASTA files ('.cds.fasta' and ‘.pep.fasta’). In general 1) avoid the use of special characters and 2) try to make your headers as short and simple as possible. 
 In case any of these two error files are generated AlexandrusPS will stop execution.
 
-#### Step 5 - After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by typing ‘./AlexandrusPS.sh’ (Fig. 2D) in terminal.
+### Run AlexandrusPS
+After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by typing ‘./AlexandrusPS.sh’ (Fig. 2D) in terminal.
 
 ```
 ./AlexandrusPS.sh
