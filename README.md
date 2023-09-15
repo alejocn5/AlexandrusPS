@@ -14,7 +14,7 @@ This repository contains procedures and scripts from AlexandrusPS:
       - [Quality control](#quality-control-of-your-sequences)
         - [Troubleshoot](#troubleshooting-errors-that-you-may-encounter-during-quality-control) 
     + [Example](#example)
-* [AlexandrusPS applications and functionalities](#alexandrusps-applications-and-functionalities)
+* [AlexandrusPS applications and functionalities](#in-depth-description-of-alexandrusps-applications-and-functionalities)
 * [References](#references)
 * [Cite us](#cite-us)
 
@@ -126,7 +126,7 @@ A step by step example for human:
 > [!NOTE]  
 > Two considerations:  
 > 1) Both FASTA files need to have the same name, the only difference should be the file extension ('.cds.fasta' and ‘.pep.fasta’).  
-
+>
 > 2) AlexandrusPS includes the script APS1_IndexGenerator_QualityControl.pl which generates a species name index based on 6 letters from the binomial name - three from the genus (hom) and three from the specific epithet (sap) - resulting in species name index  ‘homsap’. Hence, the user should make sure that the file names include only the species name (without special characters besides the mentioned ‘_’) and that the 6 letters do not overlap with the species name index of any other species included in the analysis.
 
 #### Quality control of your sequences
@@ -145,33 +145,36 @@ The QC checks whether your sequence files ('.cds.fasta' and ‘.pep.fasta’) ar
 
 ##### Troubleshooting errors that you may encounter during quality control
 In the quality control step AlexandrusPS looks for two main errors in the FASTA files: 
-1. Not all amino acids sequences in the ‘.pep.fasta’ file are represented in the '.cds.fasta' file, in which case, the script Sequences_quality_control_AlexandrusPS.sh will generate an error file ‘Error_missed_sequences.txt’ (Fig. 3A) with all the peptide sequences which could not be found in the .cds.fasta file.
-2. The FASTA file is empty or/and contains empty FASTA entries (header but no sequence) or/and the '.pep.fasta' and the '.cds.fasta' files do not contain the same amount of sequences. In case any of these errors occur it will generate an empty file “Error_with_Fasta_header.txt” (Fig. 3B). If you encounter this error file, we recommend that you re-check the FASTA files and in particular the headers of your FASTA files ('.cds.fasta' and ‘.pep.fasta’). In general 1) avoid the use of special characters and 2) try to make your headers as short and simple as possible. 
-In case any of these two error files are generated AlexandrusPS will stop execution.
+1. Not all amino acids sequences in the ‘.pep.fasta’ file are represented in the '.cds.fasta' file, in which case, the script ```Sequences_quality_control_AlexandrusPS.sh``` will generate an error file ‘Error_missed_sequences.txt’ containing all the peptide sequences which could not be found in the ‘.cds.fasta‘ file.
+2. The FASTA file is empty or/and contains empty FASTA entries (header but no sequence) or/and the '.pep.fasta' and the '.cds.fasta' files do not contain the same amount of sequences. In case any of these errors occur it will generate an empty file “Error_with_Fasta_header.txt”. If you encounter this error file, we recommend that you re-check the FASTA files and in particular the headers of your FASTA files ('.cds.fasta' and ‘.pep.fasta’). In general 1) avoid the use of special characters and 2) try to make your headers as short and simple as possible. 
 
 ### Run AlexandrusPS
-After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by typing ‘./AlexandrusPS.sh’ (Fig. 2D) in terminal.
+After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by typing ```./AlexandrusPS.sh -i /home/mydirectory/input -o /home/mydirectory/output``` in the terminal, or, preferably, run the docker image as described [above](#deploy-with-docker-recommended):
 
 ```
-./AlexandrusPS.sh
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
 ```
-
 ### Example
-To run the example, navigate to the main directory of the pipeline (Fig. 2) in your terminal and start the analysis by typing  './Example_AlexandrusPS.sh’ (Fig. 2B).
+To run the example, navigate to the main directory of the pipeline in your terminal and start the analysis by typing ```./Example_AlexandrusPS.sh -i /home/mydirectory/input```.
+You can also test the docker image and installation by running the example:
 
 ```
-./Example_AlexandrusPS.sh
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./Example_AlexandrusPS.sh -i $PWD/input
 ```
 
-This executable will transfer the FASTA files from the example directory to the FASTA directory and execute AlexandrusPS.sh with the example dataset provided together with the pipeline.
+This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will transfer the FASTA files from the example directory to the provided input directory (```-i $PWD/input```). Then, ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
+
+> [!IMPORTANT]  
+> Make sure to create an empty "input" folder in a location of your choice before executing this command.
 
 The output of this example analysis will include the following result: five of the six protein ortho groups included in the analysis are found to be under positive selection (HLA-DPA1, TLR1, NKG7, CD4, TLR8) and one without positive selection (NUP62CL). 
+The "output" directory is automatically generated within the folder passed with the ```-i``` flag.
 
-## AlexandrusPS applications and functionalities
+## In-depth description of AlexandrusPS applications and functionalities
 The following explains all the substeps and scripts (in perl or R) that are executed sequentially once AlexandrusPS has been initialized, focusing on:
-* 1) Function 
-* 2) Input files
-* 3) Output
+ 1) Function 
+ 2) Input files
+ 3) Output
                    
 #### SUBSTEP 1: Index generation, FASTA header and sequence modification, preparation of files for orthology prediction and quality control.
 
@@ -211,7 +214,6 @@ The script extracts the headers of the sequences of the ProteinOrtho clusters wh
 
 
 **Output:** Filtered table of Proteinortho table with OGCs which fulfill the requirements ('./Orthology_Prediction/ProteinOrthoTable.proteinortho.fill') (Fig. 4A), the list of orthologous gene cluster IDs (OGC_id) and files with the headers of all proteins from each orthologous gene cluster named by OGC_id located in './LIST/[_OGC_id_].list' (Fig. 3H).
-
 
 
 #### SUBSTEP 4: Calculation of the correct number of cores that will be used for Alexandrus.sh
