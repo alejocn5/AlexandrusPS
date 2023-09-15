@@ -3,15 +3,19 @@
 This repository contains procedures and scripts from AlexandrusPS:  
 * [Introduction](#introduction)
 * [Installation](#installation)
-    + [Deploy with Docker - recommended](#deploy-with-docker---recommended)
+    + [Deploy with Docker (recommended)](#deploy-with-docker-recommended)
       - [How to Docker](#how-to-docker)
       - [Singularity](#singularity)
     + [Manual installation and requirements](#manual-installation-and-requirements)
-* [Running AlexandrusPS](#5-simple-steps-to-run-alexandrusps)
-    + [Preparing input]()
+* [Running AlexandrusPS](#running-alexandrusps)
+    + [Input](#input)
+      - Sequence name indexing
+      - Nomenclature rules
+      - Quality control
     + [Example](#example)
 * [AlexandrusPS applications and functionalities](#alexandrusps-applications-and-functionalities)
 * [References](#references)
+* [Cite us](#cite-us)
 
 ## Introduction
 AlexandrusPS is a high-throughput user-friendly pipeline designed to simplify the genome-wide positive selection analysis by deploying well-established protocols of CodeML [[1]](#1). This can be especially advantageous for researchers with no evolutionary or bioinformatics experience.
@@ -20,7 +24,7 @@ The only input data AlexandrusPS needs are the CDS and amino acid sequences of i
 
 
 ## Installation
-### Deploy with Docker - Recommended
+### Deploy with Docker (recommended)
 
 The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
 
@@ -37,13 +41,13 @@ Create a directory in which you'd like to run AlexandrusPS. Make this your worki
 You can now run AlexandrusPS with:
 
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
 ```
 Where ```-v $PWD:$PWD``` mounts your current working directory and ```-i $PWD/input -o $PWD/output``` specifies the paths to the in- and output folders. 
 
 Don't forget to add ```--platform linux/amd64``` if you're on a Mac with new M chip. 
 #### Singularity
-If you wish to run ALexandrusPS on an high performance cluster with singularity, you can. Simply download the docker image and build a .sif image. Alternatively, you can pull the singularity image directly from sylabs (might be updated less freqeuntly):
+If you wish to run ALexandrusPS on an high performance cluster with singularity, you can. Simply download the docker image and build a .sif image. Alternatively, you can pull the singularity image directly from [Sylabs](https://cloud.sylabs.io/library/vivienschoonenberg/alexandrusps/alexandrusps) (might be updated less frequently):
 
 ```
 singularity pull --arch amd64 library://vivienschoonenberg/alexandrusps/alexandrusps:0.9.9.3
@@ -54,13 +58,14 @@ You can then run:
 ```
 singularity exec --bind /home/user/mydirectory:/mnt --pwd /app/AlexandrusPS_Positive_selection_pipeline/ AlexandrusPS.sif ./AlexandrusPS.sh -i /mnt/input -o /mnt/output
 ```
-With ```--bind /home/user/mydirectory:/mnt``` you mount the folder "/home/user/mydirectory" to the "/mnt" location in the singularity container. In this folder you should have made the input folder (containing all fasta files), and an output folder. These again are specified with ```-i /mnt/input -o /mnt/output```. Further, for singularity use of the original docker image it is important to specify the working directory of the container with ```--pwd /app/AlexandrusPS_Positive_selection_pipeline/```.
+With ```--bind /home/user/mydirectory:/mnt``` you mount the folder ```/home/user/mydirectory``` to the ```/mnt``` location in the singularity container. In this folder you should have made the input folder (containing all fasta files), and an output folder. These again are specified with ```-i /mnt/input -o /mnt/output```. Further, for singularity use of the original docker image it is important to specify the working directory of the container with ```--pwd /app/AlexandrusPS_Positive_selection_pipeline/```.
 
 ### Manual installation and requirements
-AlexandrusPS was devised to run without any previous installation given the docker container. Nevertheless, the user is given the choice to install all the necessary programs and modules independently.
+AlexandrusPS was designed to run without any prior installation with the Docker image. However, users have the option to independently install all the necessary programs and modules.
 #### Perl
-+ Perl 5: https://www.perl.org/
-* The following perl modules are required and can be installed them using cpan:
++ [Perl 5](https://www.perl.org/) 
+
+The following perl modules are required and can be installed them using cpan:
 + Data::Dumper
 + List::MoreUtils qw(uniq)
 + Array::Utils qw(:all)
@@ -68,10 +73,11 @@ AlexandrusPS was devised to run without any previous installation given the dock
 + List::Util
 + POSIX
 
-#### R version 4.0.5
+#### R 
 
-+ R: https://www.r-project.org/
-* The following libraries are necessary:
++ [R](https://www.r-project.org/) (version 4.0.5)
+
+The following libraries are necessary:
 
 + dplyr
 + ggplot2
@@ -84,37 +90,44 @@ AlexandrusPS was devised to run without any previous installation given the dock
 + Rstatix
 
 #### Protein orthology search
-+ ProteinOrtho (https://www.bioinf.uni-leipzig.de/Software/proteinortho/) v6.06
++ [ProteinOrtho](https://www.bioinf.uni-leipzig.de/Software/proteinortho/) v6.06
 #### Aligners
-+ PRANK multiple sequence aligner (http://wasabiapp.org/software/prank/) v.170427
-+ PAL2NAL http://www.bork.embl.de/pal2nal/#Download v14
++ [PRANK multiple sequence aligner](http://wasabiapp.org/software/prank/) v.170427
++ [PAL2NAL](http://www.bork.embl.de/pal2nal/#Download) v14
 #### PAML
-The PAML software package includes CodeML (http://abacus.gene.ucl.ac.uk/software/paml.html) - v4.8a or v4.7
++ [The PAML software package](http://abacus.gene.ucl.ac.uk/software/paml.html), which includes CodeML, v4.8a or v4.7
 
 ## Running AlexandrusPS
-
-#### Step 1 - Sequence name indexing and quality control 
+### Input
+#### Sequence name indexing
 For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with corresponding CDS sequences.
 
 > [!IMPORTANT]  
 > It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. 
 
-For example, if you want to analyze 6 different species, you should provide 12 FASTA files (6 '.cds.fasta' and 6 ‘.pep.fasta’ files), make sure to follow a similar structure as the example data set in the './Example’ directory, see Figure 1.
+For example, if you want to analyze 6 different species, you should provide 12 FASTA files (6
+```.cds.fasta``` and 6 ```.pep.fasta``` files). Make sure to follow a similar structure as the example data set in the ```AlexandrusPS_Positive_selection_pipeline/Example``` directory, see Figure 1.
 
 ![Fig1](https://user-images.githubusercontent.com/44226409/216979380-f96a7ad9-c6e5-446c-b0d5-3f0fa836e743.jpg)
 
-Figure 1 - Example sequence files with correct naming 
+Figure 1 - Example sequence files with correct naming. 
 
-#### Step 3 - Follow binomial nomenclature rules for naming the FASTA files, this formating ensures the proper functioning of the pipeline. Here a step by step example for human:
-* 1) Find the scientific name for human in binomial nomenclature ("two-term naming system") in which first term is genus or generic name => Homo and the second term is the specific name or specific epithet => sapiens
-* 2) Join the two terms by underline (_) => Homo_sapiens
-* 3) Add the termination character '.cds.fasta' for the CDS file and ‘.pep.fasta’ for the amino acid files = Homo_sapiens.cds.fasta (CDS FASTA file) and Homo_sapiens.pep.fasta (amino acid FASTA file).
+#### Follow binomial nomenclature rules 
 
-Two important considerations are:
-i) Both FASTA files need to have the same name, the only difference should be the file extension ('.cds.fasta' and ‘.pep.fasta’).
-ii) AlexandrusPS includes the script APS1_IndexGenerator_QualityControl.pl which generates a species name index based on 6 letters from the binomial name - three from the genus (hom) and three from the specific epithet (sap) - resulting in species name index  ‘homsap’. Hence the user should make sure that the file names include only the species name (without special characters besides the mentioned ‘_’) and that the 6 letters do not overlap with the species name index of any other species included in the analysis.
+For naming the FASTA files, follow the binomial nomenclature rules. This formating ensures the proper functioning of the pipeline. 
+A step by step example for human:
+1) Find the scientific name for human in binomial nomenclature ("two-term naming system") in which the first term is genus or generic name (i.e., Homo) and the second term is the specific name or specific epithet (i.e., sapiens)
+2) Join the two terms by underline (_): Homo_sapiens
+3) Add the termination character '.cds.fasta' for the CDS file and ‘.pep.fasta’ for the amino acid files:  
+    - Homo_sapiens.cds.fasta (CDS FASTA file)
+    - Homo_sapiens.pep.fasta (amino acid FASTA file)
 
-#### Step 4 - Quality control of your sequences (highly recommended to perform before running ./AlexandrusPS.sh)
+> [!IMPORTANT]  
+> Two considerations:  
+1) Both FASTA files need to have the same name, the only difference should be the file extension ('.cds.fasta' and ‘.pep.fasta’).  
+2) AlexandrusPS includes the script APS1_IndexGenerator_QualityControl.pl which generates a species name index based on 6 letters from the binomial name - three from the genus (hom) and three from the specific epithet (sap) - resulting in species name index  ‘homsap’. Hence, the user should make sure that the file names include only the species name (without special characters besides the mentioned ‘_’) and that the 6 letters do not overlap with the species name index of any other species included in the analysis.
+
+#### Quality control of your sequences (highly recommended before running AlexandrusPS)
 After you added your sequence FASTA files to the './Fasta’ directory (Fig. 2K)  and before you run AlexandrusPS.sh, we highly recommend to run the script ‘Sequences_quality_control_AlexandrusPS.sh’ (Fig. 2A) 
 ```
 ./Sequences_quality_control_AlexandrusPS.sh
@@ -397,3 +410,5 @@ Suyama, M., Torrents, D., & Bork, P. (2006). PAL2NAL: robust conversion of prote
 
 <a id="4">[4]</a>
 Lechner, M., Findeiß, S., Steiner, L., Marz, M., Stadler, P. F., & Prohaska, S. J. (2011). Proteinortho: detection of (co-) orthologs in large-scale analysis. BMC bioinformatics, 12(1), 1-9.
+
+## Cite us
