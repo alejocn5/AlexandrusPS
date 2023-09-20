@@ -6,7 +6,6 @@ This repository contains procedures and scripts from AlexandrusPS:
     + [Deploy with Docker (recommended)](#deploy-with-docker-recommended)
       - [How to Docker](#how-to-docker)
       - [Singularity](#singularity)
-    + [Manual installation and requirements](#manual-installation-and-requirements)
 * [Running AlexandrusPS](#running-alexandrusps)
     + [Input](#input)
       - [Sequence name indexing](#sequence-name-indexing)
@@ -28,16 +27,11 @@ The only input data AlexandrusPS needs are the CDS and amino acid sequences of i
 ### Deploy with Docker (recommended)
 
 The easiest way to run AlexandrusPS is to use its Docker image. You can download Docker [here](https://docs.docker.com/get-docker/).
-
-```
-docker pull vivienschoonenberg/alexandrusps:0.9.9
-```
-
 Available tags can be found [here](https://hub.docker.com/repository/docker/vivienschoonenberg/alexandrusps).
 
 #### How to Docker
 
-Create a directory in which you'd like to run AlexandrusPS. Make this your working directory directory, and make one folder in which you place all FASTA files, and a folder for the output of AlexandrusPS. You will pass these two folders as input to AlexandrusPS.
+Create a directory in which you'd like to run AlexandrusPS. Make this your working directory directory, and make one folder in which you place all CDS and amino acid FASTA files (i.e. a folder called input) (instructions on specific requirements for these files are included below), and a folder for the output of AlexandrusPS (i.e. a folder called output). You will pass the paths to two folders as input parameters to AlexandrusPS.
 
 You can now run AlexandrusPS with:
 
@@ -48,7 +42,7 @@ Where ```-v $PWD:$PWD``` mounts your current working directory and ```-i $PWD/in
 
 Don't forget to add ```--platform linux/amd64``` if you're on a Mac with new M chip. 
 #### Singularity
-If you wish to run ALexandrusPS on an high performance cluster with singularity, you can. Simply download the docker image and build a .sif image. Alternatively, you can pull the singularity image directly from [Sylabs](https://cloud.sylabs.io/library/vivienschoonenberg/alexandrusps/alexandrusps) (might be updated less frequently):
+If you wish to run ALexandrusPS with singularity (for instance on a high performance cluster), you can simply download the docker image and build a .sif image. Alternatively, you can pull the singularity image directly from [Sylabs](https://cloud.sylabs.io/library/vivienschoonenberg/alexandrusps/alexandrusps) (might be updated less frequently):
 
 ```
 singularity pull --arch amd64 library://vivienschoonenberg/alexandrusps/alexandrusps:0.9.9.3
@@ -61,53 +55,16 @@ singularity exec --bind /home/user/mydirectory:/mnt --pwd /app/AlexandrusPS_Posi
 ```
 With ```--bind /home/user/mydirectory:/mnt``` you mount the folder ```/home/user/mydirectory``` to the ```/mnt``` location in the singularity container. In this folder you should have made the input folder (containing all fasta files), and an output folder. These again are specified with ```-i /mnt/input -o /mnt/output```. Further, for singularity use of the original docker image it is important to specify the working directory of the container with ```--pwd /app/AlexandrusPS_Positive_selection_pipeline/```.
 
-### Manual installation and requirements
-AlexandrusPS was designed to run without any prior installation with the Docker image. However, users have the option to independently install all the necessary programs and modules.
-#### Perl
-+ [Perl 5](https://www.perl.org/) 
-
-The following perl modules are required and can be installed them using cpan:
-+ Data::Dumper
-+ List::MoreUtils qw(uniq)
-+ Array::Utils qw(:all)
-+ String::ShellQuote qw(shell_quote)
-+ List::Util
-+ POSIX
-
-#### R 
-
-+ [R](https://www.r-project.org/) (version 4.0.5)
-
-The following libraries are necessary:
-
-+ dplyr
-+ ggplot2
-+ caret
-+ reshape2
-+ ggpubr
-+ RColorBrewer
-+ stringr
-+ viridis
-+ Rstatix
-
-#### Protein orthology search
-+ [ProteinOrtho](https://www.bioinf.uni-leipzig.de/Software/proteinortho/) v6.06
-#### Aligners
-+ [PRANK multiple sequence aligner](http://wasabiapp.org/software/prank/) v.170427
-+ [PAL2NAL](http://www.bork.embl.de/pal2nal/#Download) v14
-#### PAML
-+ [The PAML software package](http://abacus.gene.ucl.ac.uk/software/paml.html), which includes CodeML, v4.8a or v4.7
-
 ## Running AlexandrusPS
 ### Input
 #### Sequence name indexing
-For each species that you want to include in the analysis two FASTA files should be generated, one with the amino acid sequences and the other one with corresponding CDS sequences.
+For each species that you want to include in the analysis two FASTA files should be generated, one with the CDS sequences and the other one with corresponding amino acid sequences.
 
 > [!WARNING]  
 > It is crucial that both files have the same number of sequences and that each amino acid sequence and the corresponding CDS sequence have the same header. 
 
 For example, if you want to analyze 6 different species, you should provide 12 FASTA files (6
-```.cds.fasta``` and 6 ```.pep.fasta``` files). Make sure to follow a similar structure as the example data set in the ```AlexandrusPS_Positive_selection_pipeline/Example``` directory, see Figure 1.
+```.cds.fasta``` and 6 ```.pep.fasta``` files). Make sure to follow a similar structure as the example data set in the ```Example``` directory in this repository, see Figure 1.
 
 ![Fig1](https://user-images.githubusercontent.com/44226409/216979380-f96a7ad9-c6e5-446c-b0d5-3f0fa836e743.jpg)
 
@@ -138,7 +95,7 @@ docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./Sequences_qual
 ```
 Specify the folder containing the FASTA files with ```-i $PWD/input```. ```$PWD``` is your working directory, you can change this to wherever you've stored your files. Make sure to also adjust the folder you mount in the container ```-v $PWD:$PWD``` if you do.
 
-The QC checks whether your sequence files ('.cds.fasta' and ‘.pep.fasta’) are suitable for positive selection analysis with AlexandrusPS. In case your sequences (either one or both) are not suitable for AlexandrusPS you will find one or two error files (‘Error_missed_sequences.txt’ and/or ‘Error_with_Fasta_header.txt’) in the input directory which you passed as argument to ```Sequences_quality_control_AlexandrusPS.sh```. If after running the script none of these files appear it means your sequence files are usable for the analysis. The content of the error files is described and explained in this github repository under the section ‘[Troubleshooting errors that you may encounter during quality control](#troubleshooting-errors-that-you-may-encounter-during-quality-control)’. The quality control is performed by the Perl script  ```APS1_IndexGenerator_QualityControl.pl```.
+The QC step checks whether your sequence files ('.cds.fasta' and ‘.pep.fasta’) are suitable for positive selection analysis with AlexandrusPS. In case your sequences (either one or both) are not suitable for AlexandrusPS you will find one or two error files (‘Error_missed_sequences.txt’ and/or ‘Error_with_Fasta_header.txt’) in the input directory which you passed as argument to ```Sequences_quality_control_AlexandrusPS.sh```. If after running the script none of these files appear it means your sequence files are usable for the analysis. The content of the error files is described and explained in this github repository under the section ‘[Troubleshooting errors that you may encounter during quality control](#troubleshooting-errors-that-you-may-encounter-during-quality-control)’. The quality control is performed by the Perl script  ```APS1_IndexGenerator_QualityControl.pl```.
 
 > [!NOTE]  
 > This quality control is executed by the AlexandrusPS pipeline by default. The pipeline will continue the analysis with the sequences that pass the quality control even if there are some sequences in ‘Error_missed_sequences.txt’ by excluding these from the analysis. It will however interrupt the process if it finds the file ‘Error_with_Fasta_header.txt’.
@@ -149,26 +106,23 @@ In the quality control step AlexandrusPS looks for two main errors in the FASTA 
 2. The FASTA file is empty or/and contains empty FASTA entries (header but no sequence) or/and the '.pep.fasta' and the '.cds.fasta' files do not contain the same amount of sequences. In case any of these errors occur it will generate an empty file “Error_with_Fasta_header.txt”. If you encounter this error file, we recommend that you re-check the FASTA files and in particular the headers of your FASTA files ('.cds.fasta' and ‘.pep.fasta’). In general 1) avoid the use of special characters and 2) try to make your headers as short and simple as possible. 
 
 ### Run AlexandrusPS
-After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by typing ```./AlexandrusPS.sh -i /home/mydirectory/input -o /home/mydirectory/output``` in the terminal, or, preferably, run the docker image as described [above](#deploy-with-docker-recommended):
+After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by running the docker image as described [above](#deploy-with-docker-recommended):
 
 ```
 docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
 ```
-### Example
-To run the example, navigate to the main directory of the pipeline in your terminal and start the analysis by typing ```./Example_AlexandrusPS.sh -i /home/mydirectory/input```.
-You can also test the docker image and installation by running the example:
-
+### Example data is provided for testing the pipeline
+To test the functionality of the docker image by running an example analysis:
+> [!IMPORTANT]  
+> Make sure to create an empty "input" folder in a location of your choice before executing this command.
 ```
 docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./Example_AlexandrusPS.sh -i $PWD/input
 ```
 
 This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will transfer the FASTA files from the example directory to the provided input directory (```-i $PWD/input```). Then, ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
 
-> [!IMPORTANT]  
-> Make sure to create an empty "input" folder in a location of your choice before executing this command.
-
 The output of this example analysis will include the following result: five of the six protein ortho groups included in the analysis are found to be under positive selection (HLA-DPA1, TLR1, NKG7, CD4, TLR8) and one without positive selection (NUP62CL). 
-The "output" directory is automatically generated within the folder passed with the ```-i``` flag.
+The "output" directory is automatically generated within the folder passed with the ```-i``` flag (in this example in the input folder).
 
 ## In-depth description of AlexandrusPS applications and functionalities
 The following explains all the substeps and scripts (in perl or R) that are executed sequentially once AlexandrusPS has been initialized, focusing on:
@@ -185,7 +139,6 @@ The following explains all the substeps and scripts (in perl or R) that are exec
 * iv) The new headers of the amino acid FASTA file (‘.cur.pep.fasta’) will be used for orthology prediction
 * v) compiles the new headers of all species in one file (CompiledSpecies.pep.fasta and CompiledSpecies.cds.fasta)
 * vi) as described before, this SUBSTEP also executes the initial quality control of the sequence files.
-
 
 
 **Input files:** Species_1.pep.fasta and Species_1.cds.fasta
@@ -320,11 +273,6 @@ Input : ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’
 
 **Input files:** All CodeML output files‘./G0/Orthology_Groups/codeml[_OGC_id_].M0.mlc’,
 ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.mlc’ and  ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm.mlc’
-
-
-
-
-
 
 
 **Output:** In case of missing data  will create a file called ErrorInTable.txt, which is used to condition SUBSTEP 15 
