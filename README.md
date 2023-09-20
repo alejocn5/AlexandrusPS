@@ -183,7 +183,7 @@ The following explains all the substeps and scripts (in perl or R) that are exec
 * ii) adds the index to the headers of the sequences in each FASTA file
 * iii) generates a species name index directory enabling the user to retrace the association between the used index and the species’ binomial name 
 * iv) The new headers of the amino acid FASTA file (‘.cur.pep.fasta’) will be used for orthology prediction
-* v) compiles the new headers of all species in one file (CompiledSpecies.pep.fasta and CompiledSpecies.cds.fasta) (Fig. 4C)
+* v) compiles the new headers of all species in one file (CompiledSpecies.pep.fasta and CompiledSpecies.cds.fasta)
 * vi) as described before, this SUBSTEP also executes the initial quality control of the sequence files.
 
 
@@ -192,17 +192,17 @@ The following explains all the substeps and scripts (in perl or R) that are exec
 
 
 **Output:** the output files of  'APS1_IndexGenerator_QualityControl.pl’ will be located in two new directories created by AlexandrusPS: 
-* ‘./Curated_Sequences’ which will contain the ‘CompiledSpecies.pep.fasta’ and ‘CompiledSpecies.cds.fasta’ files (Fig. 4C)
-* ‘./Orthology_Prediction’ which will contain the ‘.cur.pep.fasta’ files (Fig. 4A).
+* ‘./Curated_Sequences’ which will contain the ‘CompiledSpecies.pep.fasta’ and ‘CompiledSpecies.cds.fasta’ files.
+* ‘./Orthology_Prediction’ which will contain the ‘.cur.pep.fasta’ files.
 
 #### SUBSTEP 2: Orthology prediction by ProteinOrtho [[4]](#4)
 **Function:** Executes ProteinOrtho.
 
 
-**Input files:** In SUBSTEP 1 AlexandrusPS.sh generates a list of the cur.pep.fasta files (list_of_pepFiles.txt) in the './Orthology_Prediction’ directory (Fig. 4A). This list is the only argument for the script ‘./Code/APS1_IndexGenerator_QualityControl.pl’ (Fig. 2M). 
+**Input files:** In SUBSTEP 1 AlexandrusPS.sh generates a list of the cur.pep.fasta files (list_of_pepFiles.txt) in the './Orthology_Prediction’ directory. This list is the only argument for the script ‘./Code/APS1_IndexGenerator_QualityControl.pl’. 
 
 
-**Output:** ‘./Orthology_Prediction directory/ProteinOrthoTable.proteinortho’ (Fig. 4A)
+**Output:** ‘./Orthology_Prediction directory/ProteinOrthoTable.proteinortho’ 
 #### SUBSTEP 3: Selection of the orthology clusters from ProteinOrtho that are suitable for the positive selection analysis
 **Function:** Selects ProteinOrtho clusters (orthology groups or OGC) which are suitable for positive selection analysis by the following criteria (produced by  'APS4_OptimalProteinOrthoGroups.pl’): 
 * 1) OGC encompassing at least three species 
@@ -213,28 +213,28 @@ The script extracts the headers of the sequences of the ProteinOrtho clusters wh
 **Input files:** Original output table from the ProteinOrtho analysis (ProteinOrthoTable.proteinortho)
 
 
-**Output:** Filtered table of Proteinortho table with OGCs which fulfill the requirements ('./Orthology_Prediction/ProteinOrthoTable.proteinortho.fill') (Fig. 4A), the list of orthologous gene cluster IDs (OGC_id) and files with the headers of all proteins from each orthologous gene cluster named by OGC_id located in './LIST/[_OGC_id_].list' (Fig. 3H).
+**Output:** Filtered table of Proteinortho table with OGCs which fulfill the requirements ('./Orthology_Prediction/ProteinOrthoTable.proteinortho.fill') (Fig. 4A), the list of orthologous gene cluster IDs (OGC_id) and files with the headers of all proteins from each orthologous gene cluster named by OGC_id located in './LIST/[_OGC_id_].list'.
 
 
 #### SUBSTEP 4: Calculation of the correct number of cores that will be used for Alexandrus.sh
-**Function:** Find the number of CPU cores that will be used for the AlexandrusPS positive selection analysis part considering the desired usage percentage provided by the user and leaving 2 free cores for continuing normal usage of the computer, thus avoiding a computer system collapse. The executing script is ‘./Code/APS5_CoreCalculator.pl’ (Fig. 2M) and the default usage value is 100%.
+**Function:** Find the number of CPU cores that will be used for the AlexandrusPS positive selection analysis part considering the desired usage percentage provided by the user and leaving 2 free cores for continuing normal usage of the computer, thus avoiding a computer system collapse. The executing script is ‘./Code/APS5_CoreCalculator.pl’ and the default usage value is 100%.
 
 
-**Input files:** In the directory './Usage_core_percentage/usage_core_percentage.txt’ (Fig. 2E) the user can change the desired usage percent (just the number without the percent symbol - defaults to 100).
+**Input files:** In the directory './Usage_core_percentage/usage_core_percentage.txt’ the user can change the desired usage percent (just the number without the percent symbol - defaults to 100).
 
 
-**Output:** ‘./Data/Number_cores.txt.calculated’ (Fig. 4B), the number of cores to be used results from the formula: 
+**Output:** ‘./Data/Number_cores.txt.calculated’, the number of cores to be used results from the formula: 
 (desired usage percent) * (number of CPU cores available on the computer - 2) / 100
 
-Fig. 5. Contents of directory G0 (Fig. 2I)
+
 #### SUBSTEP 5: For each Orthology group selected in SUBSTEP 3 extract the CDS sequences
-**Function:** In this substep the sequences of the orthologs of all relevant orthologous gene clusters are extracted from the sequence FASTA files that were provided by the user. The resulting files are used for the subsequent alignment of the CDS sequences, a crucial step for the positive selection analysis. The executing scripts are './G0/Code/APS7_Extract_Pep_sequences.pl and’ './G0/Code/APS8_Extract_Cds_sequences.pl’ (Fig. 5A).
+**Function:** In this substep the sequences of the orthologs of all relevant orthologous gene clusters are extracted from the sequence FASTA files that were provided by the user. The resulting files are used for the subsequent alignment of the CDS sequences, a crucial step for the positive selection analysis. The executing scripts are './G0/Code/APS7_Extract_Pep_sequences.pl and’ './G0/Code/APS8_Extract_Cds_sequences.pl’.
 
 
-**Input files:**  './G0/Orthology_Groups/CompiledSpecies.pep.fasta’, './G0/Orthology_Groups/CompiledSpecies.cds.fasta’ (prepared in SUBSTEP 1) and './G0/Orthology_Groups/[_OGC_id_]/[_OGC_id_].list’ (prepared in SUBSTEP 3) (Fig. 5C).
+**Input files:**  './G0/Orthology_Groups/CompiledSpecies.pep.fasta’, './G0/Orthology_Groups/CompiledSpecies.cds.fasta’ (prepared in SUBSTEP 1) and './G0/Orthology_Groups/[_OGC_id_]/[_OGC_id_].list’ (prepared in SUBSTEP 3).
 
 
-**Output:** The FASTA files that will be used for the alignments  './G0/Orthology_Groups/[_OGC_id_].list.cds.fasta’ and ‘[_OGC_id_].list.pep.fasta’ (Fig. 5C).
+**Output:** The FASTA files that will be used for the alignments  './G0/Orthology_Groups/[_OGC_id_].list.cds.fasta’ and ‘[_OGC_id_].list.pep.fasta’.
 
 #### SUBSTEP 6: Simplification of the headers of the CDS and amino acid FASTA files
 
@@ -247,36 +247,36 @@ Fig. 5. Contents of directory G0 (Fig. 2I)
 
 
 **Output:** 1) Dictionaries: ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict’ and ‘./G0/Orthology_Groups/[_OGC_id_].list.cds.fasta.dict’ 
-2) FASTA files: ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’ and  ‘./G0/Orthology_Groups/[_OGC_id_].list.cds.fasta.dict.fa’ (Fig. 5C)
+2) FASTA files: ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’ and  ‘./G0/Orthology_Groups/[_OGC_id_].list.cds.fasta.dict.fa’.
 
 #### SUBSTEP 7: Peptide alignment performed by PRANK [[2]](#2)
 **Function:** CodeML is based on codon alignments, for that reason peptide alignment of all proteins in the respective orthologous groups is performed using PRANK.
 
 
-**Input files:** './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’ (prepared in SUBSTEP 6) (Fig. 5C)
+**Input files:** './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’ (prepared in SUBSTEP 6)
 
 
-**Output:** Alignment files './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.fas’ (Fig. 5C)
+**Output:** Alignment files './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.fas’
 
 #### SUBSTEP 8: Peptide alignment performed by PRANK in nexus format plus phylogenetic tree in nexus format
 **Function:** CodeML needs peptide alignment information and phylogenetic gene trees in nexus format. The executing program PRANK provides these formats.
-Input : ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’ (Fig. 5C)
+Input : ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’
 
 
-**Output:** ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex’ (Fig. 5C)
+**Output:** ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex’
 
 #### SUBSTEP 9: Rename and reformat nexus phylogenetic tree of SUBSTEP 8
-**Function:** CODEML requires a phylogenetic tree with headers of the FASTA file. As PRANK does not provide this, the script  ‘./G0/Code/APS10_CleanNex_nex.pl’ (Fig. 5A) takes the nexus alignment (‘.best.nex’) of SUBSTEP 9, extracts the phylogenetic tree (‘.best.nex.cl.nex’) and the numeration of each species and the association with the header from the alignment (‘.best.nex.dict’) and replaces the automated numeration generated by PRANK with the header of the FASTA file in the phylogenetic tree (‘.best.nex.cl.head.nex’). The script also changes nexus to dnd format making this compatible with other downstream steps (‘.best.nex.cl.head.dnd’).
+**Function:** CODEML requires a phylogenetic tree with headers of the FASTA file. As PRANK does not provide this, the script  ‘./G0/Code/APS10_CleanNex_nex.pl’ takes the nexus alignment (‘.best.nex’) of SUBSTEP 9, extracts the phylogenetic tree (‘.best.nex.cl.nex’) and the numeration of each species and the association with the header from the alignment (‘.best.nex.dict’) and replaces the automated numeration generated by PRANK with the header of the FASTA file in the phylogenetic tree (‘.best.nex.cl.head.nex’). The script also changes nexus to dnd format making this compatible with other downstream steps (‘.best.nex.cl.head.dnd’).
 
 
-**Input files:** nexus file of SUBSTEP 9 ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex’ (Fig. 5C)
+**Input files:** nexus file of SUBSTEP 9 ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex’
 
 
 **Output:** 
-1) Phylogenetic tree from PRANK in nexus format: './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.nex’ (Fig. 5C)
-2) Dictionary associating the numeration generated by PRANK with the header of the amino acid FASTA file './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.dict’ (Fig. 5C)
-3) Nexus tree with species names:  './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.nex’ (Fig. 5C)
-4) Format change from nexus to dnd  './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd’ (Fig. 5C)
+1) Phylogenetic tree from PRANK in nexus format: './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.nex’
+2) Dictionary associating the numeration generated by PRANK with the header of the amino acid FASTA file './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.dict’
+3) Nexus tree with species names:  './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.nex’
+4) Format change from nexus to dnd  './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd’
 #### SUBSTEP 10: Run pal2nal [[3]](#3)
 
 **Function:** As CodeML is a codon‐based model the multiple sequence alignment of proteins (‘.pep.fasta.dict.fa.best.fas’) and the corresponding CDS (.list.cds.fasta.dict.fa) sequences need to be converted into a codon alignment (.codonalign.fasta). This is achieved using pal2nal.
@@ -287,39 +287,39 @@ Input : ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’ (Fig. 5C)
 2) CDS sequences generated in SUBSTEP 7 './G0/Orthology_Groups/[_OGC_id_].list.cds.fasta.dict.fa’
 
 
-**Output:** CDS codon alignment:  './G0/Orthology_Groups/[_OGC_id_].codonalign.fasta’ (Fig. 5C)
+**Output:** CDS codon alignment:  './G0/Orthology_Groups/[_OGC_id_].codonalign.fasta’
 #### SUBSTEP 11: Tree labeling according to branches
 **Function:** In order to enable branch analysis any tree needs to be provided with the corresponding labels.
 
 
-**Input files:** './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd’ (Fig. 5C)
+**Input files:** './G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd’
 
 
-**Output:** ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd.GenTree.nex’ (Fig. 5C)
+**Output:** ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd.GenTree.nex’
 #### SUBSTEP 12: Generate configuration files for site-specific models
-**Function:** Generates configuration files to run site-specific model analyses that fit seven codon substitution models: M0 (‘'./G0/Code/APS12_CreateCtl_ParameterDefParPG_M0.pl’) (Fig. 5A), M1a, M2a, M3, M7 (‘'./G0/Code/APS13_CreateCtl_ParameterDefParPG_SM.pl’) (Fig. 5A), M8 and M8a (‘'./G0/Code/APS14_CreateCtl_ParameterDefParPG_SM8.pl’) (Fig. 5A). It uses the configuration file './Data/Parameter_codeml_M0.txt’  (for APS12), './Data/Parameter_codeml_SM.txt’  (for APS13)  or ''./G0/Data/Parameter_codeml_SM8.txt’ (for APS14) (Fig. 5B) (these configuration files can be modified by the user) and a default configuration file ('./G0/Data/Default_par.txt) that fills any lacking information in the executed configuration file (./G0/Data/Parameter_codeml_M0.txt) (Fig. 5B).
+**Function:** Generates configuration files to run site-specific model analyses that fit seven codon substitution models: M0 (‘'./G0/Code/APS12_CreateCtl_ParameterDefParPG_M0.pl’), M1a, M2a, M3, M7 (‘'./G0/Code/APS13_CreateCtl_ParameterDefParPG_SM.pl’), M8 and M8a (‘'./G0/Code/APS14_CreateCtl_ParameterDefParPG_SM8.pl’). It uses the configuration file './Data/Parameter_codeml_M0.txt’ (for APS12), './Data/Parameter_codeml_SM.txt’  (for APS13)  or ''./G0/Data/Parameter_codeml_SM8.txt’ (for APS14) (these configuration files can be modified by the user) and a default configuration file ('./G0/Data/Default_par.txt) that fills any lacking information in the executed configuration file (./G0/Data/Parameter_codeml_M0.txt).
 
 
-**Input files:** ‘./G0/Data/Parameter_codeml_M0.txt’ (for APS12) or ‘./G0/Data/Parameter_codeml_SM.txt’ (for APS13) or ’./G0/Data/ Parameter_codeml_SM8.txt’ (for APS13) and ‘./G0/Data/Default_par.txt’ (Fig. 5B)
+**Input files:** ‘./G0/Data/Parameter_codeml_M0.txt’ (for APS12) or ‘./G0/Data/Parameter_codeml_SM.txt’ (for APS13) or ’./G0/Data/ Parameter_codeml_SM8.txt’ (for APS13) and ‘./G0/Data/Default_par.txt’
 
 
-**Output:** Configuration files './G0/Orthology_Groups/codeml[_OGC_id_].M0.ctl’, './G0/Orthology_Groups/codeml[_OGC_id_].sm8.ctl’ and  './G0/Orthology_Groups/codeml[_OGC_id_].sm.ctl’ (Fig. 5C)
+**Output:** Configuration files './G0/Orthology_Groups/codeml[_OGC_id_].M0.ctl’, './G0/Orthology_Groups/codeml[_OGC_id_].sm8.ctl’ and  './G0/Orthology_Groups/codeml[_OGC_id_].sm.ctl’
 #### SUBSTEP 13: Run CodeML for site-specific models
 **Function:** Run CodeML using the configuration files (.ctl) generated in SUBSTEP 12.
 
 
-**Input files:** Configuration files ‘./G0/Orthology_Groups/codeml[_OGC_id_].M0.ctl’, ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.ctl’ and ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm.ctl’ (Fig. 5C)
+**Input files:** Configuration files ‘./G0/Orthology_Groups/codeml[_OGC_id_].M0.ctl’, ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.ctl’ and ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm.ctl’
 
 
 **Output:** configuration files ‘./G0/Orthology_Groups/codeml[_OGC_id_].M0.mlc’,
-‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.mlc’ and  ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm.mlc’ (Fig. 5C)
+‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.mlc’ and  ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm.mlc’
 
 #### SUBSTEP 14: Quality control of the CodeML output
 **Function:** In cases when CodeML cannot perform the analysis, the output from CodeML does not contain the information necessary for LRT (log ratio tests) calculation. To exclude these instances from the global results output they are marked for exclusion.
 
 
 **Input files:** All CodeML output files‘./G0/Orthology_Groups/codeml[_OGC_id_].M0.mlc’,
-‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.mlc’ and  ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm.mlc’ (Fig. 5C)
+‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.mlc’ and  ‘./G0/Orthology_Groups/codeml[_OGC_id_].sm.mlc’
 
 
 
@@ -328,65 +328,66 @@ Input : ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa’ (Fig. 5C)
 
 
 **Output:** In case of missing data  will create a file called ErrorInTable.txt, which is used to condition SUBSTEP 15 
-Figure 6. Outputs files in ./Final_table_positive_selection (Fig. 2J) after AlexandrusPS.sh finishes 
+
 #### SUBSTEP 15:  Extract information for calculation of LRTs (log ratio tests) for site-specific models
-**Function:** The output files of CodeML (.mlc files) which include the site-specific models performed in SUBSTEP 13 need parsing to extract the information needed for LRT calculation. This task is performed by the script ‘./G0/Code/APS16_ExtractLRTandNP_positiveSelection.pl’ (Fig. 5A) which extracts: log likelihood (lnL), the number of parameters (np) for each model, omega for M0, M8, p0 and p1 for M1 and M8, w0 and w1 for M1 and the positive selection sites (PSS, aminoacid under selection) for all the models.
+**Function:** The output files of CodeML (.mlc files) which include the site-specific models performed in SUBSTEP 13 need parsing to extract the information needed for LRT calculation. This task is performed by the script ‘./G0/Code/APS16_ExtractLRTandNP_positiveSelection.pl’ which extracts: log likelihood (lnL), the number of parameters (np) for each model, omega for M0, M8, p0 and p1 for M1 and M8, w0 and w1 for M1 and the positive selection sites (PSS, aminoacid under selection) for all the models.
 
 
 **Input files:** All the output files of CodeML './G0/Orthology_Groups/codeml[_OGC_id_].M0.mlc’,
-‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.mlc’ and  './G0/Orthology_Groups/codeml[_OGC_id_].sm.mlc’ (Fig. 5C)
+‘./G0/Orthology_Groups/codeml[_OGC_id_].sm8.mlc’ and  './G0/Orthology_Groups/codeml[_OGC_id_].sm.mlc’ 
 
 
-**Output:** If all the models have complete information the table './Final_table_positive_selection/PositiveSelectionTable.txt’ (Fig. 6F) will be filled with data. If important CodeML values such as the likelihood (lnL) and/or the number of parameters (np) are missing, the table ./Failed_files/FailedPositiveSelectionTable.txt (Fig. 2L) will be filled with any available information and absent data replaced with NAs. 
+**Output:** If all the models have complete information the table './Final_table_positive_selection/PositiveSelectionTable.txt’ will be filled with data. If important CodeML values such as the likelihood (lnL) and/or the number of parameters (np) are missing, the table ./Failed_files/FailedPositiveSelectionTable.txt will be filled with any available information and absent data replaced with NAs. 
 #### SUBSTEP 16: LRT calculation (log ratio tests) for site-specific models
-**Function:** LRT calculation and FDR correction based on the data in table  ‘./Final_table_positive_selection/PositiveSelectionTable.txt’ (Fig. 6F) is performed by R script ‘./G0/Code/APS18_Calculate_LTR.R. (Fig. 5A). 
+**Function:** LRT calculation and FDR correction based on the data in table  ‘./Final_table_positive_selection/PositiveSelectionTable.txt’ is performed by R script ‘./G0/Code/APS18_Calculate_LTR.R'. 
 
 
-**Input files:** Table './Final_table_positive_selection/PositiveSelectionTable.txt’ (Fig. 6F).
+**Input files:** Table './Final_table_positive_selection/PositiveSelectionTable.txt’.
 
 
-**Output:** A table including only the genes under positive selection at the site-specific level './Final_table_positive_selection/GenesUnderPositiveSelection.txt’ (Fig. 6G). All intermediate files (from SUBSTEP 5 to 16) of all genes that do not show signals of positive selection will be compressed in ‘./Results/[_OGC_id_].tar.gz’ (Fig. 2G).
+**Output:** A table including only the genes under positive selection at the site-specific level './Final_table_positive_selection/GenesUnderPositiveSelection.txt’. All intermediate files (from SUBSTEP 5 to 16) of all genes that do not show signals of positive selection will be compressed in ‘./Results/[_OGC_id_].tar.gz’.
 #### SUBSTEP 17:  Label single species for branch-site analysis.
-**Function:** In order to assess positive selection for individual branches of the phylogeny, this substep generates an equal number of trees as species in the orthology group - for each a different species is labeled as the foreground branch, leaving the rest of the species as background branches. This is performed by the script ‘./G0/Code/APS19_TreeGeneratorCombinator.pl’ (Fig. 5A).
+**Function:** In order to assess positive selection for individual branches of the phylogeny, this substep generates an equal number of trees as species in the orthology group - for each a different species is labeled as the foreground branch, leaving the rest of the species as background branches. This is performed by the script ‘./G0/Code/APS19_TreeGeneratorCombinator.pl’.
 
 
-**Input files:** Table ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd.GenTree.nex’ from SUBSTEP 11 (Fig. 5C)
+**Input files:** Table ‘./G0/Orthology_Groups/[_OGC_id_].list.pep.fasta.dict.fa.best.nex.cl.head.dnd.GenTree.nex’ from SUBSTEP 11.
 
 
-**Output:** Labeled tree for each species in the respective orthology group ‘./G0/Orthology_Groups/[species_name_index][_OGC_id_].BranchAnalyTree’ and a list of trees TreeList.txt (Fig. 5C)
+**Output:** Labeled tree for each species in the respective orthology group ‘./G0/Orthology_Groups/[species_name_index][_OGC_id_].BranchAnalyTree’ and a list of trees TreeList.txt.
 #### SUBSTEP 18: Generate configuration files for branch and branch-site models
-**Function:** Generates configuration files to run branch-site model analyses that fit seven codon substitution models: M0  (‘./G0/Code/APS20_CreateCtl_ParameterDefParPG_BSM0.pl’), H0 (‘./G0/Code/APS21_CreateCtl_ParameterDefParPG_BSM0H0.pl’) (Fig. 5A), and H1  (‘./G0/Code/APS22_CreateCtl_ParameterDefParPG_BSM0H1.pl’) (Fig. 5A), using the configuration file ‘./Data/Parameter_codeml_M0BS.txt’ (Fig. 5A) (for APS20) or ‘./G0/Data/Parameter_codeml_M2BSH0.txt‘  (for APS21)  or ‘./G0/Data/Parameter_codeml_M2BSH1.txt’ (for APS22) (these files can be modified by the user) and a default configuration file (./G0/Data/Default_par.txt) that fills any gap in the executed CodeML configuration files (Fig. 5B).
+**Function:** Generates configuration files to run branch-site model analyses that fit seven codon substitution models: M0  (‘./G0/Code/APS20_CreateCtl_ParameterDefParPG_BSM0.pl’), H0 (‘./G0/Code/APS21_CreateCtl_ParameterDefParPG_BSM0H0.pl’), and H1  (‘./G0/Code/APS22_CreateCtl_ParameterDefParPG_BSM0H1.pl’), using the configuration file ‘./Data/Parameter_codeml_M0BS.txt’ (for APS20) or ‘./G0/Data/Parameter_codeml_M2BSH0.txt‘  (for APS21)  or ‘./G0/Data/Parameter_codeml_M2BSH1.txt’ (for APS22) (these files can be modified by the user) and a default configuration file (./G0/Data/Default_par.txt) that fills any gap in the executed CodeML configuration files.
 
 
-**Input files:** './G0/Data/Parameter_codeml_M0BS.txt’ (for APS20) or ‘./G0/Data/Parameter_codeml_M2BSH0.txt’ (for APS21) or’./G0/Data/ Parameter_codeml_M2BSH1.txt’ (for APS22) and  ‘./G0/Data/Default_par.txt.’ (Fig. 5B)
+**Input files:** './G0/Data/Parameter_codeml_M0BS.txt’ (for APS20) or ‘./G0/Data/Parameter_codeml_M2BSH0.txt’ (for APS21) or’./G0/Data/ Parameter_codeml_M2BSH1.txt’ (for APS22) and  ‘./G0/Data/Default_par.txt.’.
 
 
-**Output:** Configuration files ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.ctl’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.ctl’ and ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.ctl’ (Fig. 5C)
+**Output:** Configuration files ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.ctl’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.ctl’ and ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.ctl’
 
 #### SUBSTEP 19: Run CodeML for branch and branch-site models
 **Function:** Run CodeML with the configuration files (.ctl) generated in SUBSTEP 18.
 
 
-**Input files:** Configuration files ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.ctl’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.ctl’ and ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.ctl’ (Fig. 5C)
+**Input files:** Configuration files ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.ctl’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.ctl’ and ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.ctl’
 
 
-**Output:** CodeML output files ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.mlc’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.mlc’ and ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.mlc’ (Fig. 5C).
+**Output:** CodeML output files ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.mlc’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.mlc’ and ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.mlc’.
 #### SUBSTEP 20:  Extract information for LRT (log ratio tests) calculation for branch and branch-site models
-**Function:**  The CodeML output files (.mlc files) of the branch and branch-site model analyses performed in SUBSTEP 19 need to be parsed for the information needed for LRT calculation. This is performed by the script './G0/Code/APS23_ExtractLRTandNP_positiveSelectionBranchSite.pl’ (Fig. 5A) which extracts: likelihood (lnL) and number of parameters (np) for each model.
+**Function:**  The CodeML output files (.mlc files) of the branch and branch-site model analyses performed in SUBSTEP 19 need to be parsed for the information needed for LRT calculation. This is performed by the script './G0/Code/APS23_ExtractLRTandNP_positiveSelectionBranchSite.pl’ which extracts: likelihood (lnL) and number of parameters (np) for each model.
 
 
-**Input files:** Full CodeML output ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.mlc’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.mlc’ and  ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.mlc’ (Fig. 5C)
+**Input files:** Full CodeML output ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0.mlc’, ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h0.mlc’ and  ‘./G0/Orthology_Groups/codeml[species_name_index][_OGC_id_].bsm0h1.mlc’
 
 
-**Output:** Table including all relevant data for LRT calculation ‘./Final_table_positive_selection/Branch_models_BranchSite_models_Table.txt’ (Fig. 6B)
+**Output:** Table including all relevant data for LRT calculation ‘./Final_table_positive_selection/Branch_models_BranchSite_models_Table.txt’
+
 #### SUBSTEP 21: LRT (log ratio tests) calculation for branch and branch-site models
-**Function:** LRT calculation and FDR correction based on the data in table  ‘./Final_table_positive_selection/Branch_models_BranchSite_models_Table.txt’ (Fig. 6B) performed by the R script ‘./G0/Code/APS23_BranchSiteAnalysis.R’. (Fig. 5A). 
+**Function:** LRT calculation and FDR correction based on the data in table  ‘./Final_table_positive_selection/Branch_models_BranchSite_models_Table.txt’ performed by the R script ‘./G0/Code/APS23_BranchSiteAnalysis.R’.
 
 
 **Input files:**  Table including all relevant data for LRT calculation from SUBSTEP 20 ‘./Final_table_positive_selection/Branch_models_BranchSite_models_Table.txt.
 
 
-**Output:** Table including only genes under positive selection at the branch and branch-site level ‘./Final_table_positive_selection/Branch_model.txt’ (Fig. 6A) and ‘./Final_table_positive_selection/Branch_site_model.txt’ (Fig. 6C). The intermediate files (from SUBSTEP 5 to 21) will be compressed in (‘./Results_Branch/[_OGC_id_]bs.tar.gz’) (Fig. 2F).
+**Output:** Table including only genes under positive selection at the branch and branch-site level ‘./Final_table_positive_selection/Branch_model.txt’ and ‘./Final_table_positive_selection/Branch_site_model.txt’. The intermediate files (from SUBSTEP 5 to 21) will be compressed in (‘./Results_Branch/[_OGC_id_]bs.tar.gz’).
 
 
 ## References
