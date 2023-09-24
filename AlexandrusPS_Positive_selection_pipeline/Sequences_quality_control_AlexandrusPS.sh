@@ -1,7 +1,26 @@
 #!/bin/bash
 
+helpFunction()
+{
+   echo ""
+   echo "Usage: $0 -i Fasta directory"
+   echo -e "\t-i Directory containing all FASTA input files"
+   exit 1 # Exit script after printing help
+}
 
+# pasre arguments from the command line
+while getopts "i:o:" opt
+do
+    case "$opt" in
+        i) input="$OPTARG";;
+		?) helpFunction ;; # print helpfunction
+    esac
+done
+echo "FastaFiles: $input";
+echo "input: $input/*.fasta";
 
+# copy the input fasta from user to "Fasta" directory
+cp $input/*.fasta ./Fasta/.
 
 FastaSeq=./Fasta/*.pep.fasta
 

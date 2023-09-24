@@ -1,6 +1,29 @@
 #!/bin/bash
 
+helpFunction()
+{
+   echo ""
+   echo "Usage: $0 -i Fasta directory -o Output directory"
+   echo -e "\t-i Directory containing all FASTA input files"
+   echo -e "\t-o Directory to write output of AlexandrusPS"
+   exit 1 # Exit script after printing help
+}
 
+# pasre arguments from the command line
+while getopts "i:o:" opt
+do
+    case "$opt" in
+        i) input="$OPTARG";;
+		o) output="$OPTARG";;
+		?) helpFunction ;; # print helpfunction
+    esac
+done
+echo "FastaFiles: $input";
+echo "input: $input/*.fasta";
+echo "output: $output/.";
+
+# copy the input fasta from user to "Fasta" directory
+cp $input/*.fasta ./Fasta/.
 
 #STEP 1: Index generator, Name of headers and sequences modification, prepare files for orthology prediction, quality control
 	echo "============================================================================================================================"
@@ -174,7 +197,17 @@ done < ./Group.list
 	echo "============================================================================================================================"
 	echo "============================================================================================================================"
 	echo "============================================================================================================================\n\n\n"
+# copy all output files to user provided output folder
+echo "copying files to output folder ..."
 
+cp -R ./Orthology_Prediction $output/.
+cp -R ./Final_table_positive_selection $output/.
+cp -R ./Data $output/.
+cp -R ./Curated_Sequences $output/.
+cp -R ./Results $output/.
+cp -R ./Results_Branch $output/.
+
+echo "All done!"
 #screen -d -m sh CleanAlexandrusPS.sh
 # for l in $list
 
