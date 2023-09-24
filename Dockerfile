@@ -4,9 +4,9 @@ FROM ubuntu:20.04 AS base
 
 # Environment
 ENV DEBIAN_FRONTEND=noninteractive \
-    LANG=en_US.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+  LANG=en_US.UTF-8 \
+  LC_ALL=C.UTF-8 \
+  LANGUAGE=en_US.UTF-8
 
 # run time apps
 RUN apt-get update && \
@@ -22,16 +22,19 @@ FROM base AS build
 
 # Update system and install packages, libcurl for rstatix
 RUN apt-get update && \
-    apt-get install -yq \
-	build-essential \
+  apt-get install -yq \
+  build-essential \
   libcurl4-openssl-dev \ 
+  libnlopt-dev \
   cmake \
-	wget && \
-	rm -rf /var/lib/apt/lists/*
+  wget && \
+  rm -rf /var/lib/apt/lists/*
 
 # install R packages
-RUN R -q -e 'install.packages(c("caret", "rstatix", "reshape2", "dplyr", "stringr"))' && \
-    rm -rf /tmp/downloaded_packages
+RUN R -q -e 'install.packages(c("caret", "reshape2", "dplyr", "stringr", "lme4"))' && \
+  R -q -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/pbkrtest/pbkrtest_0.4-4.tar.gz", repos=NULL, type="source")' && \
+  R -q -e 'install.packages("rstatix", repos = "https://cloud.r-project.org", dependencies = TRUE, version="0.7.1")' && \
+  rm -rf /tmp/downloaded_packages
 
 # install PRANK
 WORKDIR /programs
@@ -64,9 +67,26 @@ RUN cp -R ./programs/paml4.9j/src/baseml ./bin/ &&\
   cp -R ./programs/paml4.9j/src/codeml ./bin/ &&\
   cp -R ./programs/paml4.9j/src/evolver ./bin/
 
+# Create the writable directory
+RUN mkdir /tmp/screens
+
+# Set appropriate permissions
+RUN chmod 700 /tmp/screens
+ENV SCREENDIR=/tmp/screens
+
 WORKDIR /app
 # copy AlexandrusPS
 COPY AlexandrusPS_Positive_selection_pipeline ./AlexandrusPS_Positive_selection_pipeline
+
+# set permissions
+RUN chown -R 755:755 /app
+RUN chmod 755 /app
+RUN chown -R 755:755 /usr
+RUN chmod 755 /usr
+RUN chown -R 755:755 /programs
+RUN chmod 755 /programs
+RUN chmod a+x /usr/bin/prank
+#RUN chown root:root /usr/bin/prank
 
 # mark shell scripts as executable
 WORKDIR /app/AlexandrusPS_Positive_selection_pipeline

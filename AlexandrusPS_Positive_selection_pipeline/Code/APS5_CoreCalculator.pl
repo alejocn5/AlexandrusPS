@@ -9,7 +9,7 @@ use Array::Utils qw(:all);
 use String::ShellQuote qw(shell_quote); # cpan String::ShellQuote
 use List::Util;
 use POSIX;
-
+use Cwd;
 
 
 
@@ -17,7 +17,12 @@ use POSIX;
 open my $Core, "< $ARGV[0]";
 open my $U, "< $ARGV[1]";
 open my $NEWCore, "> $ARGV[0].calculated";
-open my $Group, ">> Group.list";
+
+my $directory = $ARGV[2];
+# Get the absolute path of the provided directory
+$directory = Cwd::abs_path($directory);
+
+open my $Group, ">> $directory/Group.list";
 
 my $Cores;
 my $Usage;
