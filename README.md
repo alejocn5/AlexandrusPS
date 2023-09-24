@@ -36,7 +36,7 @@ Create a directory in which you'd like to run AlexandrusPS. Make this your worki
 You can now run AlexandrusPS with:
 
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
 ```
 Where ```-v $PWD:$PWD``` mounts your current working directory and ```-i $PWD/input -o $PWD/output``` specifies the paths to the in- and output folders. 
 
@@ -91,7 +91,7 @@ A step by step example for human:
 After you've prepared your input sequence FASTA files, create an input folder to store them all together. You can now opt to run a quality control check on your sequences before running AlexandrusPS (also has the QC step build in). 
 To do so you'd run:
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./Sequences_quality_control_AlexandrusPS.sh -i $PWD/input
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Sequences_quality_control_AlexandrusPS.sh -i $PWD/input
 ```
 Specify the folder containing the FASTA files with ```-i $PWD/input```. ```$PWD``` is your working directory, you can change this to wherever you've stored your files. Make sure to also adjust the folder you mount in the container ```-v $PWD:$PWD``` if you do.
 
@@ -109,14 +109,14 @@ In the quality control step AlexandrusPS looks for two main errors in the FASTA 
 After confirming that no error files were generated in step 4, AlexandrusPS can be executed from the main directory by running the docker image as described [above](#deploy-with-docker-recommended):
 
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./AlexandrusPS.sh -i $PWD/input -o $PWD/output
 ```
 ### Example data is provided for testing the pipeline
 To test the functionality of the docker image by running an example analysis:
 > [!IMPORTANT]  
 > Make sure to create an empty "input" folder in a location of your choice before executing this command.
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:0.9.9.3 ./Example_AlexandrusPS.sh -i $PWD/input
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Example_AlexandrusPS.sh -i $PWD/input
 ```
 
 This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will transfer the FASTA files from the example directory to the provided input directory (```-i $PWD/input```). Then, ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
