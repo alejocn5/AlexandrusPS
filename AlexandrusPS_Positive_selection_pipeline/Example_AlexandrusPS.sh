@@ -3,29 +3,29 @@
 helpFunction()
 {
    echo ""
-   echo "Usage: $0 -i Working directory"
-   echo -e "\t-i Working directory, FASTA input files will be copied to this location"
+   echo "Usage: $0 -w Working directory"
+   echo -e "\t-w Working directory, an input folder with FASTA input files will be copied to this location, and a separate output directory will be created."
    exit 1 # Exit script after printing help
 }
 
 # pasre arguments from the command line - working directory for example to run in (outside container)
-while getopts "i:" opt
+while getopts "w:" opt
 do
     case "$opt" in
-        i) input="$OPTARG";;
+        w) wd="$OPTARG";;
 		?) helpFunction ;; # print helpfunction
     esac
 done
 
-echo "Working directory: $input";
+echo "Working directory: $wd";
 
 # make output folder
-# mkdir $input/output
+mkdir -p $wd/input
 
 #copy fasta files to outside of container to working directory passed by user
-cp ./Example/*.fasta $input/.
+cp ./Example/*.fasta $wd/input
 
-sh AlexandrusPS.sh -i $input -o $input/output
+sh AlexandrusPS.sh -i $wd/input -o $wd/output
 
 # FastaSeq=./Fasta/*.pep.fasta
 # 	mkdir ./Curated_Sequences
