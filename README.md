@@ -116,7 +116,7 @@ To test the functionality of the docker image by running an example analysis:
 > [!IMPORTANT]  
 > Make sure to create an empty folder in a location of your choice before executing this command.
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Example_AlexandrusPS.sh -wd $PWD/myfolder
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Example_AlexandrusPS.sh -w $PWD/myfolder
 ```
 
 This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will create an input and output folder in the provided directory (```-i $PWD/myfolder```). Then, the FASTA files from the example directory are transferred to the newly created "input" folder, and ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
