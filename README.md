@@ -114,7 +114,7 @@ docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./AlexandrusPS.sh -i
 ### Example data is provided for testing the pipeline
 To test the functionality of the docker image by running an example analysis:
 > [!IMPORTANT]  
-> Make sure to create an empty folder (i.e. "myfolder" in commmand below) in a location of your choice (making this your working directory, "$PWD") before executing this command.
+> Make sure to create an empty folder (i.e. "myfolder" in commmand below) in a location of your choice (and make this your working directory, "$PWD") before executing this command.
 ```
 docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Example_AlexandrusPS.sh -w $PWD/myfolder
 ```
