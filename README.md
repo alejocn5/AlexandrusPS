@@ -45,7 +45,7 @@ Don't forget to add ```--platform linux/amd64``` if you're on a Mac with new M c
 If you wish to run ALexandrusPS with singularity (for instance on a high performance cluster), you can simply download the docker image and build a .sif image. Alternatively, you can pull the singularity image directly from [Sylabs](https://cloud.sylabs.io/library/vivienschoonenberg/alexandrusps/alexandrusps) (might be updated less frequently):
 
 ```
-singularity pull --arch amd64 library://vivienschoonenberg/alexandrusps/alexandrusps:0.9.9.3
+singularity pull --arch amd64 library://vivienschoonenberg/alexandrusps/alexandrusps:1.0
 ```
 
 You can then run:
