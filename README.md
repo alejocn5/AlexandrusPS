@@ -119,7 +119,7 @@ To test the functionality of the docker image by running an example analysis:
 docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Example_AlexandrusPS.sh -i $PWD/myfolder
 ```
 
-This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will create an input and output folder in the provided directory (```-w $PWD/myfolder```). Then, the FASTA files from the example directory are transferred to the newly created "input" folder, and ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
+This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will create an input and output folder in the provided directory (```-i $PWD/myfolder```). Then, the FASTA files from the example directory are transferred to the newly created "input" folder, and ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
 
 The output of this example analysis will include the following result: five of the six protein ortho groups included in the analysis are found to be under positive selection (HLA-DPA1, TLR1, NKG7, CD4, TLR8) and one without positive selection (NUP62CL). 
 The "output" directory is automatically generated within the folder passed with the ```-i``` flag (in this example in the input folder).
