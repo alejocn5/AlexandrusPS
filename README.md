@@ -116,13 +116,20 @@ To test the functionality of the docker image by running an example analysis:
 > [!IMPORTANT]  
 > Make sure to create an empty folder (i.e. "myfolder" in commmand below) in a location of your choice (and make this your working directory, "$PWD") before executing this command.
 ```
-docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Example_AlexandrusPS.sh -i $PWD/myfolder
+docker run -v $PWD:$PWD vivienschoonenberg/alexandrusps:1.0 ./Example_AlexandrusPS.sh -w $PWD/myfolder
 ```
 
-This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will create an input and output folder in the provided directory (```-i $PWD/myfolder```). Then, the FASTA files from the example directory are transferred to the newly created "input" folder, and ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
+This executable mounts your current working directory in the docker (```-v $PWD:$PWD```) and will create an input and output folder in the provided directory (```-w $PWD/myfolder```). Then, the FASTA files from the example directory are transferred to the newly created "input" folder, and ```AlexandrusPS.sh``` gets executed with the example dataset provided together with the pipeline.
 
 The output of this example analysis will include the following result: five of the six protein ortho groups included in the analysis are found to be under positive selection (HLA-DPA1, TLR1, NKG7, CD4, TLR8) and one without positive selection (NUP62CL). 
-The "output" directory is automatically generated within the folder passed with the ```-i``` flag (in this example in the input folder).
+The "output" directory is automatically generated within the folder passed with the ```-w``` flag (in this example in the 'myfolder' directory).
+
+Runnning the example in Singularity can be done with the following command:
+```
+singularity exec --bind /home/user/mydirectory:/mnt --pwd /app/AlexandrusPS_Positive_selection_pipeline/ ./Example_AlexandrusPS.sh -w /mnt
+```
+
+With ```--bind /home/user/mydirectory:/mnt``` you mount the folder ```/home/user/mydirectory``` to the ```/mnt``` location in the singularity container. This is passed as working directory to the example run of AlexandruPS with ```-w /mnt```. Here, an input and output folder will be created. Further, for singularity use of the original docker image it is important to specify the working directory of the container with ```--pwd /app/AlexandrusPS_Positive_selection_pipeline/```.
 
 ## In-depth description of AlexandrusPS applications and functionalities
 The following explains all the substeps and scripts (in perl or R) that are executed sequentially once AlexandrusPS has been initialized, focusing on:
