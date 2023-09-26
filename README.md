@@ -51,7 +51,7 @@ singularity pull --arch amd64 library://vivienschoonenberg/alexandrusps/alexandr
 You can then run:
 
 ```
-singularity exec --bind /home/user/mydirectory:/mnt --pwd /app/AlexandrusPS_Positive_selection_pipeline/ AlexandrusPS.sif ./AlexandrusPS.sh -i /mnt/input -o /mnt/output
+singularity exec --bind /home/user/mydirectory:/mnt --pwd /app/AlexandrusPS_Positive_selection_pipeline/ alexandrusps_1.0.sif ./AlexandrusPS.sh -i /mnt/input -o /mnt/output
 ```
 With ```--bind /home/user/mydirectory:/mnt``` you mount the folder ```/home/user/mydirectory``` to the ```/mnt``` location in the singularity container. In this folder you should have made the input folder (containing all fasta files), and an output folder. These again are specified with ```-i /mnt/input -o /mnt/output```. Further, for singularity use of the original docker image it is important to specify the working directory of the container with ```--pwd /app/AlexandrusPS_Positive_selection_pipeline/```.
 
