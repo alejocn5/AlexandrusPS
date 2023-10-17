@@ -361,3 +361,4 @@ Suyama, M., Torrents, D., & Bork, P. (2006). PAL2NAL: robust conversion of prote
 Lechner, M., Findeiß, S., Steiner, L., Marz, M., Stadler, P. F., & Prohaska, S. J. (2011). Proteinortho: detection of (co-) orthologs in large-scale analysis. BMC bioinformatics, 12(1), 1-9.
 
 ## Cite us
+Ceron-Noriega, A., Schoonenberg, V. A., Butter, F., & Levin, M. (2023). AlexandrusPS: a user-friendly pipeline for the automated detection of orthologous gene clusters and subsequent positive selection analysis. Genome Biology and Evolution, evad187. (https://doi.org/10.1093/gbe/evad187)
